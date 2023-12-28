@@ -3,6 +3,7 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
+
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -10,18 +11,9 @@
     ];
 
   # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/nvme0n1";
-  boot.loader.grub.useOSProber = true;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
-  # Setup keyfile
-  boot.initrd.secrets = {
-    "/crypto_keyfile.bin" = null;
-  };
-
-  boot.loader.grub.enableCryptodisk=true;
-
-  boot.initrd.luks.devices."luks-3b42cfe9-f1cd-436f-9e5d-35110f30dde8".keyFile = "/crypto_keyfile.bin";
   networking.hostName = "mandalore"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -114,10 +106,10 @@
   # additional hardware configuration not discovered by hardware scan
   boot.initrd.availableKernelModules = [ "virtio-pci" "e1000e" ];
 
-  boot.initrd.secrets = {
-        "/etc/secrets/initrd/ssh_host_rsa_key" = "/etc/secrets/initrd/ssh_host_rsa_key";
-	"/etc/secrets/initrd/ssh_host_ed25519_key" = "/etc/secrets/initrd/ssh_host_ed25519_key";
-      };
+  #boot.initrd.secrets = {
+  #      "/etc/secrets/initrd/ssh_host_rsa_key" = "/etc/secrets/initrd/ssh_host_rsa_key";
+  #	"/etc/secrets/initrd/ssh_host_ed25519_key" = "/etc/secrets/initrd/ssh_host_ed25519_key";
+  #     };
 
   boot.initrd.network = {
     enable = true;
@@ -125,19 +117,21 @@
       enable = true;
       port = 2222;
 
-      # ssh-keygen -t ed25519 -N "" -f /etc/secrets/initrd/ssh_host_ed25519_key
+      shell = "/bin/cryptsetup-askpass";
+
+      # sudo mkdir -p /etc/secrets/initrd
+      # sudo ssh-keygen -t rsa -N "" -f /etc/secrets/initrd/ssh_host_rsa_key
+      # sudo ssh-keygen -t ed25519 -N "" -f /etc/secrets/initrd/ssh_host_ed25519_key
       hostKeys = [
         "/etc/secrets/initrd/ssh_host_rsa_key"
 	"/etc/secrets/initrd/ssh_host_ed25519_key"
       ];
 
 
-      #hostECDSAKey = /var/src/secrets/dropbear/ecdsa-hostkey;
       # this includes the ssh keys of all users in the wheel group, but you can just specify some keys manually
       authorizedKeys = [ 
-        "sk-ecdsa-sha2-nistp256@openssh.com AAAAInNrLWVjZHNhLXNoYTItbmlzdHAyNTZAb3BlbnNzaC5jb20AAAAIbmlzdHAyNTYAAABBBNk/0ETSX9reNQaOJZDXm52cVx767pnJJW4K+jjJF53VSiHQcb6G4rpE16a51lWssAOVHFySGRb2q/cs1esNYu8AAAAEc3NoOg== ruben@deathstar"
-	"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPSGQkg+lmetJAVsd0Ojy76ehuoc2aJuIP03f08Ny0lQ ruben@millenium-falcon"
-      ];
+        "sk-ecdsa-sha2-nistp256@openssh.com AAAAInNrLWVjZHNhLXNoYTItbmlzdHAyNTZAb3BlbnNzaC5jb20AAAAIbmlzdHAyNTYAAABBBNk/0ETSX9reNQaOJZDXm52cVx767pnJJW4K+jjJF53VSiHQcb6G4rpE16a51lWssAOVHFySGRb2q/cs1esNYu8AAAAEc3NoOg=="
+	];
       
       #authorizedKeys = with lib; concatLists (mapAttrsToList (name: user: if elem "wheel" user.extraGroups then user.openssh.authorizedKeys.keys else []) config.users.users);
     };
@@ -145,21 +139,6 @@
     #  echo 'cryptsetup-askpass' >> /root/.profile
     #'';
   };
-
-    boot.initrd.network.postCommands = let
-      # I use a LUKS 2 label. Replace this with your disk device's path.
-      disk = "/dev/disk/by-uuid/3b42cfe9-f1cd-436f-9e5d-35110f30dde8";
-    in ''
-      echo 'cryptsetup open ${disk} root --type luks && echo > /tmp/continue' >> /root/.profile
-      echo 'starting sshd...'
-    '';
-    # Block the boot process until /tmp/continue is written to
-    boot.initrd.postDeviceCommands = ''
-      echo 'waiting for root device to be opened...'
-      mkfifo /tmp/continue
-      cat /tmp/continue
-    '';
-
 
   boot.kernelParams = [ "ip=dhcp" ];
 
