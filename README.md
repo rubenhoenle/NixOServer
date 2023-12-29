@@ -1,5 +1,13 @@
 # NixOS Server Configuration
 
+## TODOs
+- Paperless
+- Tandoor
+- Reverse Proxy
+- Git config
+- Restic Backup Service
+- Nix File Formatter
+
 ## Rebuilding
 
 `sudo nixos-rebuild switch -I nixos-config=$(pwd)/configuration.nix`
