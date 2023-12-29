@@ -12,7 +12,7 @@
   users.users.ruben = {
     isNormalUser = true;
     description = "Ruben";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       #vim
     ];
@@ -20,6 +20,13 @@
 
   # Enable experimental support for flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  # docker
+  virtualisation.docker.enable = true;
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
 
   environment.systemPackages = with pkgs; [
     screenfetch

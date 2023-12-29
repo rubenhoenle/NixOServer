@@ -5,7 +5,6 @@
 - Tandoor
 - Reverse Proxy
 - Git config
-- Restic Backup Service
 - Nix File Formatter
 
 ## Rebuilding
