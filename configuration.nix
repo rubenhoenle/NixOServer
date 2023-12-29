@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, agenix, ... }:
 {
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -23,6 +23,7 @@
 
   environment.systemPackages = with pkgs; [
     screenfetch
+    agenix
   ];
 
   # https://discourse.nixos.org/t/disk-encryption-on-nixos-servers-how-when-to-unlock/5030
