@@ -6,6 +6,7 @@
 - Reverse Proxy
 - Git config
 - Nix File Formatter
+- Wake on LAN
 
 ## Rebuilding
 

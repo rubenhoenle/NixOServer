@@ -4,11 +4,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "mandalore";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
-
   users.users.ruben = {
     isNormalUser = true;
     description = "Ruben";
@@ -35,14 +30,13 @@
 
   # https://discourse.nixos.org/t/disk-encryption-on-nixos-servers-how-when-to-unlock/5030
 
-
   # additional hardware configuration not discovered by hardware scan
   boot.initrd.availableKernelModules = [ "virtio-pci" "e1000e" ];
 
   #boot.initrd.secrets = {
-  #      "/etc/secrets/initrd/ssh_host_rsa_key" = "/etc/secrets/initrd/ssh_host_rsa_key";
-  #	"/etc/secrets/initrd/ssh_host_ed25519_key" = "/etc/secrets/initrd/ssh_host_ed25519_key";
-  #     };
+  #  "/etc/secrets/initrd/ssh_host_rsa_key" = "/etc/secrets/initrd/ssh_host_rsa_key";
+  #  "/etc/secrets/initrd/ssh_host_ed25519_key" = "/etc/secrets/initrd/ssh_host_ed25519_key";
+  #};
 
   boot.initrd.network = {
     enable = true;
@@ -68,9 +62,6 @@
 
       #authorizedKeys = with lib; concatLists (mapAttrsToList (name: user: if elem "wheel" user.extraGroups then user.openssh.authorizedKeys.keys else []) config.users.users);
     };
-    #postCommands = ''
-    #  echo 'cryptsetup-askpass' >> /root/.profile
-    #'';
   };
 
   boot.kernelParams = [ "ip=dhcp" ];
