@@ -4,5 +4,6 @@
     ./networking.nix
     ./secrets.nix
     ./backup.nix
+    ./podman.nix
   ];
 }

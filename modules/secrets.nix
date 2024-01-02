@@ -15,4 +15,9 @@
     owner = "ruben";
     group = "users";
   };
+  age.secrets.matrixMqttBridgeConfig = {
+    file = ../secrets/matrix-mqtt-bridge-config.age;
+    owner = "ruben";
+    group = "users";
+  };
 }

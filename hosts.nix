@@ -4,7 +4,8 @@
     nixosModules = [
       ./hardware/thinkcentre-m710q.nix
       {
-        #ruben.network.hostname = "mandalore";
+        ruben.network.hostname = "mandalore";
+
         ruben.paperless.enable = true;
         ruben.backup.enable = true;
 
