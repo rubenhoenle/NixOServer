@@ -20,4 +20,14 @@
     owner = "ruben";
     group = "users";
   };
+  age.secrets.tandoorPostgresPassword = {
+    file = ../secrets/tandoor-postgres-password.age;
+    owner = "ruben";
+    group = "users";
+  };
+  age.secrets.tandoorSecretKey = {
+    file = ../secrets/tandoor-secret-key.age;
+    owner = "ruben";
+    group = "users";
+  };
 }

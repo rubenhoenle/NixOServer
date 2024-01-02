@@ -6,4 +6,6 @@ in
   "backblaze-b2-restic-s3-secrets.age".publicKeys = [ mandalore ];
   "paperless-password.age".publicKeys = [ mandalore ];
   "matrix-mqtt-bridge-config.age".publicKeys = [ mandalore ];
+  "tandoor-postgres-password.age".publicKeys = [ mandalore ];
+  "tandoor-secret-key.age".publicKeys = [ mandalore ];
 }
