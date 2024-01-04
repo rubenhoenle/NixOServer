@@ -1,9 +1,10 @@
 { pkgs, ... }: {
   imports = [
+    ./backup.nix
     ./locales.nix
     ./networking.nix
-    ./secrets.nix
-    ./backup.nix
+    ./nix.nix
     ./podman.nix
+    ./secrets.nix
   ];
 }

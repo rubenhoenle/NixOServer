@@ -2,9 +2,10 @@
 {
   services.unbound = {
     enable = true;
+    resolveLocalQueries = false;
     settings = {
       server = {
-        interface = [ "0.0.0.0@53" ];
+        interface = [ "127.0.0.1@53" ];
       };
     };
   };

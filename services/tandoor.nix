@@ -63,18 +63,16 @@ in
         "${volumeBasePath}/mediafiles:/media:ro"
       ];
       dependsOn = [ "tandoor-app" ];
-      extraOptions = [ "--network=tandoor-net" ];
+      extraOptions = [ "--network=${podmanNetworkName}" ];
     };
 
     tandoor-db = {
       image = "docker.io/library/postgres:15-alpine";
       hostname = "tandoor-db";
       autoStart = true;
-      user = "ruben:users";
       volumes = [
         "${volumeBasePath}/postgresql:/var/lib/postgresql/data"
-        "${postgresPasswordFile}:/var/lib/postgresql/postgres.passwd"
-        "/etc/passwd:/etc/passwd:ro"
+        "${postgresPasswordFile}:/var/lib/postgresql/postgres.passwd:ro"
       ];
       environment = {
         "POSTGRES_DB" = "${postgresDatabase}";
