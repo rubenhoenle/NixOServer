@@ -1,9 +1,5 @@
 # NixOS Server Configuration
 
-## TODOs
-- Reverse Proxy
-- Wake on LAN
-
 ## Rebuilding
 `sudo nixos-rebuild switch --flake .#<HOSTNAME>`
 

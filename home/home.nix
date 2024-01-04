@@ -5,6 +5,7 @@
     restic
     screenfetch
     htop
+    podman-compose
   ];
 
   home.stateVersion = "23.11";
