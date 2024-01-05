@@ -47,7 +47,10 @@ in
         "TIMEZONE" = "Europe/Berlin";
         "ENABLE_PDF_EXPORT" = "1";
       };
-      extraOptions = [ "--network=${podmanNetworkName}" ];
+      extraOptions = [
+        "--network=${podmanNetworkName}"
+        "--userns=keep-id:uid=${toString config.users.users."ruben".uid},gid=${toString config.users.groups."users".gid}"
+      ];
       dependsOn = [ "tandoor-db" ];
     };
 
@@ -70,6 +73,8 @@ in
       image = "docker.io/library/postgres:15-alpine";
       hostname = "tandoor-db";
       autoStart = true;
+      # I don't think that's needed
+      #user = "${toString config.users.users."ruben".uid}:${toString config.users.users."ruben".group}";
       volumes = [
         "${volumeBasePath}/postgresql:/var/lib/postgresql/data"
         "${postgresPasswordFile}:/var/lib/postgresql/postgres.passwd:ro"
@@ -79,7 +84,10 @@ in
         "POSTGRES_USER" = "${postgresUsername}";
         "POSTGRES_PASSWORD_FILE" = "/var/lib/postgresql/postgres.passwd";
       };
-      extraOptions = [ "--network=${podmanNetworkName}" ];
+      extraOptions = [
+        "--network=${podmanNetworkName}"
+        "--userns=keep-id:uid=${toString config.users.users."ruben".uid},gid=${toString config.users.groups."users".gid}"
+      ];
     };
   };
 }

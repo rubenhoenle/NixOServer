@@ -11,7 +11,10 @@
     packages = with pkgs; [
       #vim
     ];
+    uid = 1000;
   };
+
+  users.groups.users.gid = 100;
 
   # Enable experimental support for flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
