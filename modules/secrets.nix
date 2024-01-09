@@ -30,4 +30,9 @@
     owner = "ruben";
     group = "users";
   };
+  age.secrets.gickupGithubToken = {
+    file = ../secrets/gickup-github-token.age;
+    owner = "ruben";
+    group = "users";
+  };
 }

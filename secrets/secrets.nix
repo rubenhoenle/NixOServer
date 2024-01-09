@@ -8,4 +8,5 @@ in
   "matrix-mqtt-bridge-config.age".publicKeys = [ mandalore ];
   "tandoor-postgres-password.age".publicKeys = [ mandalore ];
   "tandoor-secret-key.age".publicKeys = [ mandalore ];
+  "gickup-github-token.age".publicKeys = [ mandalore ];
 }

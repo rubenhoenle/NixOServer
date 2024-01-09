@@ -1,6 +1,7 @@
 { pkgs, ... }: {
   imports = [
     ./endless-ssh.nix
+    ./gickup.nix
     ./ssh.nix
     ./unbound.nix
     ./nginx.nix
