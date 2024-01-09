@@ -6,6 +6,7 @@
     screenfetch
     htop
     podman-compose
+    dnsutils
   ];
 
   home.stateVersion = "23.11";
