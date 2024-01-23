@@ -25,7 +25,8 @@ in
           PAPERLESS_OCR_LANGUAGE = "deu+eng";
           PAPERLESS_ADMIN_USER = "ruben";
           PAPERLESS_TASK_WORKERS = 2;
-          PAPERLESS_THREADS_PER_WORKER = 4;
+          PAPERLESS_THREADS_PER_WORKER = 2;
+          PAPERLESS_WORKER_TIMEOUT = 3600;
         };
       };
     };
