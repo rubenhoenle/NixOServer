@@ -2,6 +2,7 @@
   imports = [
     ./endless-ssh.nix
     ./gickup.nix
+    ./hedgedoc.nix
     ./ssh.nix
     ./unbound.nix
     ./nginx.nix
