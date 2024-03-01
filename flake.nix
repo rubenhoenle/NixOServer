@@ -44,7 +44,6 @@
             value = lib.nixosSystem {
               inherit system pkgs;
               modules = [
-                ./configuration.nix
                 agenix.nixosModules.default
                 {
                   _module.args.agenix = agenix.packages.${system}.default;
