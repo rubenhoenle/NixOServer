@@ -9,4 +9,7 @@ in
   "tandoor-postgres-password.age".publicKeys = [ mandalore ];
   "tandoor-secret-key.age".publicKeys = [ mandalore ];
   "gickup-github-token.age".publicKeys = [ mandalore ];
+  "ovh/application-key.age".publicKeys = [ mandalore ];
+  "ovh/application-secret.age".publicKeys = [ mandalore ];
+  "ovh/consumer-key.age".publicKeys = [ mandalore ];
 }

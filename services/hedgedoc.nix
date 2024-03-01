@@ -30,7 +30,7 @@ in
       ];
       environment = {
         "CMD_DB_URL" = "postgres://hedgedoc:password@hedgedoc-db:5432/hedgedoc";
-        "CMD_DOMAIN" = "pad.local";
+        "CMD_DOMAIN" = "pad.home.hoenle.xyz";
         #"CMD_HOST" = "localhost";
         "CMD_URL_ADDPORT" = "false";
         "CMD_PROTOCOL_USESSL" = "true";

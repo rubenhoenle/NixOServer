@@ -35,4 +35,19 @@
     owner = "ruben";
     group = "users";
   };
+  age.secrets.ovhApplicationKey = {
+    file = ../secrets/ovh/application-key.age;
+    owner = "acme";
+    group = "acme";
+  };
+  age.secrets.ovhApplicationSecret = {
+    file = ../secrets/ovh/application-secret.age;
+    owner = "acme";
+    group = "acme";
+  };
+  age.secrets.ovhConsumerKey = {
+    file = ../secrets/ovh/consumer-key.age;
+    owner = "acme";
+    group = "acme";
+  };
 }

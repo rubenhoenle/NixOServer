@@ -1,20 +1,38 @@
 { config, pkgs, ... }:
+let
+  domain = "home.hoenle.xyz";
+  ovhApplicationKey = config.age.secrets.ovhApplicationKey.path;
+  ovhApplicationSecret = config.age.secrets.ovhApplicationSecret.path;
+  ovhConsumerKey = config.age.secrets.ovhConsumerKey.path;
+in
 {
   security.acme = {
     acceptTerms = true;
     defaults.email = "acme@hoenle.xyz";
-    #preliminarySelfsigned = true;
-    #defaults.server = "";
+    #defaults.server = "https://acme-staging-v02.api.letsencrypt.org/directory";
+    certs."${domain}" = {
+      dnsProvider = "ovh";
+      domain = "${domain}";
+      extraDomainNames = [ "*.${domain}" ];
+      credentialsFile = "${pkgs.writeText "ovh-creds" ''
+      OVH_APPLICATION_KEY_FILE=${ovhApplicationKey}
+      OVH_APPLICATION_SECRET_FILE=${ovhApplicationSecret}
+      OVH_CONSUMER_KEY_FILE=${ovhConsumerKey}
+      OVH_ENDPOINT=ovh-eu
+    ''}";
+    };
   };
+
+  users.users.nginx.extraGroups = [ "acme" ];
 
   services.nginx = {
     enable = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
 
-    virtualHosts."paperless.local" = {
-      enableACME = true;
+    virtualHosts."paperless.${domain}" = {
       forceSSL = true;
+      useACMEHost = "${domain}";
       locations."/" = {
         proxyPass = "http://127.0.0.1:8085";
         proxyWebsockets = true; # needed if you need to use WebSocket
@@ -28,9 +46,9 @@
       };
     };
 
-    virtualHosts."pad.local" = {
-      enableACME = true;
+    virtualHosts."pad.${domain}" = {
       forceSSL = true;
+      useACMEHost = "${domain}";
       locations."/" = {
         proxyPass = "http://127.0.0.1:3000";
         proxyWebsockets = true; # needed if you need to use WebSocket
@@ -44,9 +62,9 @@
       };
     };
 
-    virtualHosts."tandoor.local" = {
-      enableACME = true;
+    virtualHosts."recipes.${domain}" = {
       forceSSL = true;
+      useACMEHost = "${domain}";
       locations."/" = {
         proxyPass = "http://127.0.0.1:7450";
         proxyWebsockets = true; # needed if you need to use WebSocket
