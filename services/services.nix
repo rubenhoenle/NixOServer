@@ -3,6 +3,7 @@
     ./endless-ssh.nix
     ./gickup.nix
     ./hedgedoc.nix
+    ./homer.nix
     ./ssh.nix
     ./unbound.nix
     ./nginx.nix
