@@ -3,12 +3,14 @@
   age.secrets.resticPassword = {
     file = ../secrets/restic-password.age;
     owner = "ruben";
-    group = "users";
+    group = "backup";
+    mode = "440";
   };
   age.secrets.backblazeB2ResticS3EnvironmentSecrets = {
     file = ../secrets/backblaze-b2-restic-s3-secrets.age;
     owner = "ruben";
-    group = "users";
+    group = "backup";
+    mode = "440";
   };
   age.secrets.paperlessPassword = {
     file = ../secrets/paperless-password.age;

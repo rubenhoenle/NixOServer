@@ -1,68 +1,75 @@
 { config, pkgs, lib, ... }:
-with lib;
-let
-  volumeBasePath = "/home/ruben/services/podman/hedgedoc";
-  podmanNetworkName = "hedgedoc-net";
-  #postgresPasswordFile = config.age.secrets.tandoorPostgresPassword.path;
-  #secretKeyFile = config.age.secrets.tandoorSecretKey.path;
-in
 {
-  # create a podman network so the hedgedoc app can reach it's database
-  systemd.services.create-hedgedoc-network = with config.virtualisation.oci-containers; {
-    serviceConfig.Type = "oneshot";
-    wantedBy = [ "podman-hedgedoc-app.service" "podman-hedgedoc-db.service" ];
-    script = ''
-      ${pkgs.podman}/bin/podman network exists ${podmanNetworkName} || \
-      ${pkgs.podman}/bin/podman network create ${podmanNetworkName}
-    '';
+  users.users.hedgedoc = {
+    name = "hedgedoc";
+    group = "hedgedoc";
+    description = "HedgeDoc service user";
+    isSystemUser = true;
+    extraGroups = [ "backup" ];
+  };
+  users.groups.hedgedoc = { };
+
+  services.hedgedoc = {
+    enable = true;
+    settings = {
+      host = "0.0.0.0";
+      port = 3000;
+      protocolUseSSL = true;
+      domain = "pad.home.hoenle.xyz";
+      db = {
+        dialect = "sqlite";
+        storage = "/var/lib/hedgedoc/db.sqlite";
+      };
+
+      uploadPath = "/var/lib/hedgedoc/uploads";
+      allowOrigin = [ "localhost" "127.0.0.1" "pad.home.hoenle.xyz" ];
+    };
   };
 
-  virtualisation.oci-containers.containers = {
-    hedgedoc-app = {
-      image = "quay.io/hedgedoc/hedgedoc:1.9.9";
-      autoStart = true;
-      ports = [
-        #"127.0.0.1:
-        "3000:3000"
-      ];
-      volumes = [
-        "${volumeBasePath}/uploads:/hedgedoc/public/uploads"
-      ];
-      environment = {
-        "CMD_DB_URL" = "postgres://hedgedoc:password@hedgedoc-db:5432/hedgedoc";
-        "CMD_DOMAIN" = "pad.home.hoenle.xyz";
-        #"CMD_HOST" = "localhost";
-        "CMD_URL_ADDPORT" = "false";
-        "CMD_PROTOCOL_USESSL" = "true";
-      };
-      extraOptions = [
-        "--network=${podmanNetworkName}"
-        "--userns=keep-id:uid=${toString config.users.users."ruben".uid},gid=${toString config.users.groups."users".gid}"
-      ];
-      dependsOn = [ "hedgedoc-db" ];
+  /* create db dump directory */
+  systemd.tmpfiles.settings."hedgedoc-db-dumps" = {
+    "/var/lib/hedgedoc/db-dumps".d = {
+      mode = "0770";
+      user = "hedgedoc";
+      group = "hedgedoc";
     };
+  };
 
-    hedgedoc-db = {
-      image = "docker.io/library/postgres:13.4-alpine";
-      hostname = "hedgedoc-db";
-      autoStart = true;
-      volumes = [
-        "${volumeBasePath}/postgresql:/var/lib/postgresql/data"
-        #"${postgresPasswordFile}:/var/lib/postgresql/postgres.passwd:ro"
-      ];
-      environment = {
-        #"POSTGRES_DB" = "${postgresDatabase}";
-        #"POSTGRES_USER" = "${postgresUsername}";
-        #"POSTGRES_PASSWORD_FILE" = "/var/lib/postgresql/postgres.passwd";
+  /* hedgedoc backup service */
+  services.restic.backups.hedgedoc = {
+    user = "hedgedoc";
+    initialize = true;
+    passwordFile = config.age.secrets.resticPassword.path;
+    repository = "s3:https://s3.eu-central-003.backblazeb2.com/nixos-server-restic-backup/services/hedgedoc";
+    environmentFile = config.age.secrets.backblazeB2ResticS3EnvironmentSecrets.path;
+    paths = [
+      "/var/lib/hedgedoc/uploads"
+      "/var/lib/hedgedoc/db-dumps"
+    ];
+    pruneOpts = [
+      "--keep-daily 7"
+      "--keep-weekly 4"
+      "--keep-monthly 12"
+      "--keep-yearly 3"
+    ];
+    extraOptions = [ "s3.region=eu-central-003" ];
+    timerConfig = {
+      OnCalendar = "daily";
+      Persistent = true;
+    };
+    # get a db dump before running the restic backup job
+    backupPrepareCommand = "${pkgs.sqlite}/bin/sqlite3 /var/lib/hedgedoc/db.sqlite \".backup '/var/lib/hedgedoc/db-dumps/db-dump.sqlite3'\"";
+  };
 
-        "POSTGRES_USER" = "hedgedoc";
-        "POSTGRES_PASSWORD" = "password";
-        "POSTGRES_DB" = "hedgedoc";
+  /* hedgedoc restore backup service (restores the latest restic backup and imports the latest dump into the hedgedoc database) */
+  systemd.user.services = {
+    hedgedoc-backup-restore = {
+      serviceConfig = {
+        Type = "oneshot";
+        User = "hedgedoc";
+        Group = "hedgedoc";
+        ExecStart = "restic-hedgedoc restore --target / latest && mv /var/lib/hedgedoc/db-dumps/db-dump.sqlite3 /var/lib/hedgedoc/db.sqlite";
       };
-      extraOptions = [
-        "--network=${podmanNetworkName}"
-        "--userns=keep-id:uid=${toString config.users.users."ruben".uid},gid=${toString config.users.groups."users".gid}"
-      ];
     };
   };
 }

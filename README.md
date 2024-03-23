@@ -20,3 +20,25 @@ journalctl -u podman-tandoor-app
 journalctl -u podman-matrix-mqtt-bridge
 ```
 
+## Services
+
+`sudo -u tandoor_recipes bash`
+
+### Hedgedoc service
+
+#### Backup testing / restoring backups
+
+``` bash
+# only when testing backups
+systemctl stop hedgedoc
+sudo rm -r /var/lib/hedgedoc
+
+# only when testing backup or restoring backup on a new machine
+update-switch # hedgedoc will now create a new db etc.
+
+# finally, let's restore the backup
+systemctl stop hedgedoc
+sudo restic-hedgedoc restore --target / latest && sudo mv /var/lib/hedgedoc/db-dumps/db-dump.sqlite3 /var/lib/hedgedoc/db.sqlite
+systemctl start hedgedoc
+```
+
