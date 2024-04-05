@@ -60,16 +60,4 @@
     # get a db dump before running the restic backup job
     backupPrepareCommand = "${pkgs.sqlite}/bin/sqlite3 /var/lib/hedgedoc/db.sqlite \".backup '/var/lib/hedgedoc/db-dumps/db-dump.sqlite3'\"";
   };
-
-  /* hedgedoc restore backup service (restores the latest restic backup and imports the latest dump into the hedgedoc database) */
-  systemd.user.services = {
-    hedgedoc-backup-restore = {
-      serviceConfig = {
-        Type = "oneshot";
-        User = "hedgedoc";
-        Group = "hedgedoc";
-        ExecStart = "restic-hedgedoc restore --target / latest && mv /var/lib/hedgedoc/db-dumps/db-dump.sqlite3 /var/lib/hedgedoc/db.sqlite";
-      };
-    };
-  };
 }

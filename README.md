@@ -26,7 +26,7 @@ journalctl -u podman-matrix-mqtt-bridge
 
 ### Hedgedoc service
 
-#### Backup testing / restoring backups
+Backup testing / restoring backups
 
 ``` bash
 # only when testing backups
@@ -36,7 +36,7 @@ sudo rm -r /var/lib/hedgedoc
 # only when testing backup or restoring backup on a new machine
 update-switch # hedgedoc will now create a new db etc.
 
-# finally, let's restore the backup
+# finally, let's restore the backup (restores the latest restic backup and restores the database from it)
 systemctl stop hedgedoc
 sudo restic-hedgedoc restore --target / latest && sudo mv /var/lib/hedgedoc/db-dumps/db-dump.sqlite3 /var/lib/hedgedoc/db.sqlite
 systemctl start hedgedoc
