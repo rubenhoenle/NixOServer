@@ -1,4 +1,17 @@
 { config, pkgs, lib, ... }:
+let
+  database-path = "/var/lib/hedgedoc/db.sqlite";
+  backup-restore-logic-script = pkgs.writeText "restore-hedgedoc-backup.sh"
+    ''
+      if [ -f "${database-path}" ]; then
+        echo "[CUSTOM] ${database-path} exists. Using existing database. No backup restore required."
+      else
+        echo "[CUSTOM] ${database-path} does not exist. Restoring backup..."
+        /run/current-system/sw/bin/restic-hedgedoc restore --target / latest
+        mv /var/lib/hedgedoc/db-dumps/db-dump.sqlite3 ${database-path}
+      fi
+    '';
+in
 {
   users.users.hedgedoc = {
     name = "hedgedoc";
@@ -18,7 +31,7 @@
       domain = "pad.home.hoenle.xyz";
       db = {
         dialect = "sqlite";
-        storage = "/var/lib/hedgedoc/db.sqlite";
+        storage = "${database-path}";
       };
 
       uploadPath = "/var/lib/hedgedoc/uploads";
@@ -58,6 +71,9 @@
       Persistent = true;
     };
     # get a db dump before running the restic backup job
-    backupPrepareCommand = "${pkgs.sqlite}/bin/sqlite3 /var/lib/hedgedoc/db.sqlite \".backup '/var/lib/hedgedoc/db-dumps/db-dump.sqlite3'\"";
+    backupPrepareCommand = "${pkgs.sqlite}/bin/sqlite3 ${database-path} \".backup '/var/lib/hedgedoc/db-dumps/db-dump.sqlite3'\"";
   };
+
+  /* if no hedgedoc database is present (e.g. on new machine), restore the latest restic backup */
+  systemd.services.hedgedoc.serviceConfig.ExecStartPre = [ "${pkgs.bash}/bin/bash ${backup-restore-logic-script}" ];
 }
