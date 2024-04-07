@@ -13,6 +13,7 @@ let
     '';
 in
 {
+  /* hedgedoc service user */
   users.users.hedgedoc = {
     name = "hedgedoc";
     group = "hedgedoc";
@@ -22,6 +23,7 @@ in
   };
   users.groups.hedgedoc = { };
 
+  /* hedgedoc service */
   services.hedgedoc = {
     enable = true;
     settings = {
@@ -33,7 +35,6 @@ in
         dialect = "sqlite";
         storage = "${database-path}";
       };
-
       uploadPath = "/var/lib/hedgedoc/uploads";
       allowOrigin = [ "localhost" "127.0.0.1" "pad.home.hoenle.xyz" ];
     };
@@ -41,6 +42,11 @@ in
 
   /* create db dump directory */
   systemd.tmpfiles.settings."hedgedoc-db-dumps" = {
+    "/var/lib/hedgedoc".d = {
+      mode = "0770";
+      user = "hedgedoc";
+      group = "hedgedoc";
+    };
     "/var/lib/hedgedoc/db-dumps".d = {
       mode = "0770";
       user = "hedgedoc";
@@ -74,6 +80,16 @@ in
     backupPrepareCommand = "${pkgs.sqlite}/bin/sqlite3 ${database-path} \".backup '/var/lib/hedgedoc/db-dumps/db-dump.sqlite3'\"";
   };
 
-  /* if no hedgedoc database is present (e.g. on new machine), restore the latest restic backup */
-  systemd.services.hedgedoc.serviceConfig.ExecStartPre = [ "${pkgs.bash}/bin/bash ${backup-restore-logic-script}" ];
+  /* hedgedoc backup restore service : if no hedgedoc database is present (e.g. on new machine), restore the latest restic backup */
+  systemd.services.hedgedoc-backup-auto-restore = {
+    wantedBy = [ "multi-user.target" ];
+    before = [ "hedgedoc.service" ];
+    requiredBy = [ "hedgedoc.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      User = "hedgedoc";
+      Group = "hedgedoc";
+      ExecStart = "${pkgs.bash}/bin/bash ${backup-restore-logic-script}";
+    };
+  };
 }

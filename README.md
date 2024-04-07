@@ -31,6 +31,16 @@ journalctl -u podman-matrix-mqtt-bridge
 systemctl start restic-backups-hedgedoc.service
 systemctl stop hedgedoc.service
 sudo rm -rf /var/lib/hedgedoc
-systemctl start hedgedoc.service
+update-switch
+```
+
+### Tandoor recipes service
+
+``` bash
+# testing the backup
+systemctl start restic-backups-tandoor.service
+systemctl stop tandoor-recipes.service
+sudo rm -rf /var/lib/tandoor-recipes
+update-switch
 ```
 
