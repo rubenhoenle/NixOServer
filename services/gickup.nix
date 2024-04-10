@@ -24,7 +24,7 @@ let
       }
     ];
 
-    #cron = "0 1 * * *";
+    cron = "0 1 * * *";
     # optional - when cron is not provided, the program runs once and exits.
     # Otherwise, it runs according to the cron schedule.
     # For more information on crontab or testing: https://crontab.guru/
