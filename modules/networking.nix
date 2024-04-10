@@ -26,10 +26,10 @@ in
         ];
         allowedUDPPorts = [ 22 53 69 2222 ];
 
-        interfaces."podman+" = {
-          allowedUDPPorts = [ 53 ];
-          allowedTCPPorts = [ 53 ];
-        };
+        #interfaces."podman+" = {
+        #  allowedUDPPorts = [ 53 ];
+        #  allowedTCPPorts = [ 53 ];
+        #};
       };
       hosts = {
         "192.168.178.1" = [ "fritz.box" ];

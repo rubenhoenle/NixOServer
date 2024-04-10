@@ -5,15 +5,18 @@
     resolveLocalQueries = false;
     settings = {
       server = {
-        interface = [ "127.0.0.1@53" "enp0s31f6@53" ];
+        interface = [ "0.0.0.0@53" "::0@53" ];
         access-control = [
           "127.0.0.0/8      allow"
           "::1/128          allow"
           "192.168.178.0/24 allow"
         ];
         local-data = [
-          "\"paperless.local A 192.168.178.5\""
-          "\"tandoor.local   A 192.168.178.5\""
+          "\"home.hoenle.xyz A 192.168.178.5\""
+          "\"pad.home.hoenle.xyz A 192.168.178.5\""
+          "\"recipes.home.hoenle.xyz A 192.168.178.5\""
+          "\"paperless.home.hoenle.xyz A 192.168.178.5\""
+
           "\"mandalore       A 192.168.178.5\""
 
           "\"fritz.box       A 192.168.178.1\""
