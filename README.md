@@ -44,3 +44,13 @@ sudo rm -rf /var/lib/tandoor-recipes
 update-switch
 ```
 
+### Paperless service
+
+``` bash
+# testing the backup
+systemctl start restic-backups-paperless.service
+systemctl stop paperless-consumer.service paperless-scheduler.service paperless-task-queue.service paperless-web.service redis-paperless.service
+sudo rm -rf /var/lib/paperless
+update-switch
+```
+
