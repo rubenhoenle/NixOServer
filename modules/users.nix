@@ -9,9 +9,8 @@
     ];
     uid = 1000;
   };
-
-  # group which provides access to restic agenix secrets 
-  users.groups.backup = { };
-
   users.groups.users.gid = 100;
+
+  /* group which provides access to restic agenix secrets */
+  users.groups.backup = { };
 }

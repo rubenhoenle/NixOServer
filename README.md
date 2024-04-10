@@ -1,5 +1,7 @@
 # NixOS Server Configuration
 
+`nixos-rebuild switch --build-host root@mandalore --target-host root@mandalore --flake ".#mandalore"`
+
 ## Rebuilding
 `sudo nixos-rebuild switch --flake .#<HOSTNAME>`
 
