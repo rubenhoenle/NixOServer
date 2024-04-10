@@ -7,7 +7,7 @@
         ruben.network.hostname = "mandalore";
 
         ruben.paperless.enable = true;
-        ruben.backup.enable = true;
+        ruben.gickup.enable = true;
 
         swapDevices = [{
           device = "/var/lib/swapfile";

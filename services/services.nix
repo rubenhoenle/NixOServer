@@ -1,6 +1,5 @@
 { pkgs, ... }: {
   imports = [
-    ./endless-ssh.nix
     ./gickup.nix
     ./hedgedoc.nix
     ./homer.nix

@@ -1,6 +1,13 @@
 { config, pkgs, ... }:
 {
-  # Enable the OpenSSH daemon.
+  /* Endless SSH honeypot */
+  services.endlessh = {
+    enable = true;
+    port = 22;
+    openFirewall = false;
+  };
+
+  /* actual OpenSSH daemon */
   services.openssh = {
     enable = true;
     ports = [ 69 ];
@@ -13,9 +20,7 @@
   };
 
   users.users."ruben".openssh.authorizedKeys.keys = [
-    "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIGz2voOKRU2i2BECmdXRw+1okyV+Kwm6PSN0ghaD8zuqAAAABHNzaDo= ruben" # content of authorized_keys file
-    # note: ssh-copy-id will add user@your-machine after the public key
-    # but we can remove the "@your-machine" part
+    "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIGz2voOKRU2i2BECmdXRw+1okyV+Kwm6PSN0ghaD8zuqAAAABHNzaDo= ruben"
     "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIPsnp3qCYwCpb49UptuZ8csHzIZzZr0Buyl7uVW9udFdAAAABHNzaDo= ruben"
   ];
 

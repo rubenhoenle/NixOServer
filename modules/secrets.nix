@@ -34,8 +34,8 @@
   };
   age.secrets.gickupGithubToken = {
     file = ../secrets/gickup-github-token.age;
-    owner = "ruben";
-    group = "users";
+    owner = "gickup";
+    group = "gickup";
   };
   age.secrets.ovhApplicationKey = {
     file = ../secrets/ovh/application-key.age;
