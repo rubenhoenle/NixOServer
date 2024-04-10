@@ -4,7 +4,6 @@
     ./gickup.nix
     ./hedgedoc.nix
     ./homer.nix
-    ./seafile.nix
     ./ssh.nix
     ./unbound.nix
     ./nginx.nix
