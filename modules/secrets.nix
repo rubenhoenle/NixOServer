@@ -14,42 +14,38 @@
   };
   age.secrets.paperlessPassword = {
     file = ../secrets/paperless-password.age;
-    owner = "ruben";
-    group = "users";
+    owner = "paperless";
+    group = "paperless";
+    mode = "400";
   };
   age.secrets.matrixMqttBridgeConfig = {
     file = ../secrets/matrix-mqtt-bridge-config.age;
     owner = "ruben";
     group = "users";
-  };
-  age.secrets.tandoorPostgresPassword = {
-    file = ../secrets/tandoor-postgres-password.age;
-    owner = "ruben";
-    group = "users";
-  };
-  age.secrets.tandoorSecretKey = {
-    file = ../secrets/tandoor-secret-key.age;
-    owner = "ruben";
-    group = "users";
+    mode = "400";
   };
   age.secrets.gickupGithubToken = {
     file = ../secrets/gickup-github-token.age;
     owner = "gickup";
     group = "gickup";
+    mode = "400";
   };
   age.secrets.ovhApplicationKey = {
     file = ../secrets/ovh/application-key.age;
     owner = "acme";
     group = "acme";
+    mode = "400";
   };
   age.secrets.ovhApplicationSecret = {
     file = ../secrets/ovh/application-secret.age;
     owner = "acme";
     group = "acme";
+    mode = "400";
   };
   age.secrets.ovhConsumerKey = {
     file = ../secrets/ovh/consumer-key.age;
     owner = "acme";
     group = "acme";
+    mode = "400";
   };
 }
