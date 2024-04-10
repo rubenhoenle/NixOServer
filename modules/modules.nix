@@ -1,6 +1,5 @@
 { pkgs, agenix, ... }: {
   imports = [
-    ./backup.nix
     ./boot.nix
     ./firmware.nix
     ./locales.nix
