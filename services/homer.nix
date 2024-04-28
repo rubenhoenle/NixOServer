@@ -14,6 +14,10 @@ let
       url = "https://raw.githubusercontent.com/NX211/homer-icons/c23d6413b03629d45f80fe8d493224bae38baf23/svg/hedgedoc.svg";
       sha256 = "0c1kn3f695szxn1abni0kbz3pdkgask3rfwg2y0rj2ghb195awfh";
     };
+    nextcloud = builtins.fetchurl {
+      url = "https://raw.githubusercontent.com/NX211/homer-icons/master/png/nextcloud.png";
+      sha256 = "1gqm8kldmbd60vigww3xyfy61zpn1w64v1rlk50167pk6184r444";
+    };
   };
 
   # generate a homer config yaml file
@@ -55,6 +59,14 @@ let
             url = "https://pad.home.hoenle.xyz";
             target = "_blank";
           }
+          {
+            name = "Nextcloud";
+            logo = "assets/icons/nextcloud.png";
+            subtitle = "Private cloud suite";
+            keywords = "Private cloud suite";
+            url = "https://cloud.home.hoenle.xyz";
+            target = "_blank";
+          }
         ];
       }
     ];
@@ -70,6 +82,7 @@ in
         "${icons.tandoor}:/www/assets/icons/tandoor.png"
         "${icons.paperless}:/www/assets/icons/paperless.png"
         "${icons.hedgedoc}:/www/assets/icons/hedgedoc.svg"
+        "${icons.nextcloud}:/www/assets/icons/nextcloud.png"
       ];
       ports = [
         "127.0.0.1:7451:8080"

@@ -10,4 +10,5 @@ in
   "ovh/application-key.age".publicKeys = [ mandalore ];
   "ovh/application-secret.age".publicKeys = [ mandalore ];
   "ovh/consumer-key.age".publicKeys = [ mandalore ];
+  "nextcloud/initial-nextcloud-password.age".publicKeys = [ mandalore ];
 }
