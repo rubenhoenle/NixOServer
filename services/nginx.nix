@@ -64,6 +64,12 @@ in
       };
     };
 
+    # nextcoud
+    virtualHosts."cloud.${domain}" = {
+      forceSSL = true;
+      useACMEHost = "${domain}";
+    };
+
     # hedgedoc
     virtualHosts."pad.${domain}" = {
       forceSSL = true;

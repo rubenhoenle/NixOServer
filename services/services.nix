@@ -10,5 +10,6 @@
     ./tandoor.nix
     ./matrix-bridge.nix
     ./stashapp.nix
+    ./nextcloud.nix
   ];
 }

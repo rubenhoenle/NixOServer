@@ -56,3 +56,13 @@ sudo rm -rf /var/lib/paperless
 update-switch
 ```
 
+### Nextcloud service
+
+``` bash
+# testing the backup
+systemctl start restic-backups-nextcloud.service
+systemctl stop phpfpm-nextcloud.service
+sudo rm -rf /var/lib/nextcloud
+update-switch
+```
+
