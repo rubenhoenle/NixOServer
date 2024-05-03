@@ -30,16 +30,51 @@ in
     package = pkgs.nextcloud28;
     hostName = "cloud.home.hoenle.xyz";
     home = "/var/lib/nextcloud";
+    configureRedis = true;
+    maxUploadSize = "64G";
+    phpOptions."max_file_uploads" = "9999";
+
     config = {
+      dbtype = "pgsql";
+      dbname = "nextcloud";
+      dbtableprefix = "oc_";
+      dbuser = "nextcloud";
+      dbhost = "/run/postgresql";
+
       adminuser = "ruben";
       adminpassFile = config.age.secrets.initialNextcloudPassword.path;
     };
 
     autoUpdateApps.enable = true;
     extraApps = {
-      inherit (config.services.nextcloud.package.packages.apps) contacts calendar tasks deck;
+      inherit (config.services.nextcloud.package.packages.apps) contacts calendar tasks memories deck;
     };
     extraAppsEnable = true;
+  };
+
+  systemd.services."nextcloud-setup" = {
+    requires = [ "postgresql.service" ];
+    after = [ "postgresql.service" ];
+  };
+
+  services.postgresql.enable = true;
+  services.postgresql.package = pkgs.postgresql_15;
+  services.postgresql.settings = {
+    max_connections = "300";
+    shared_buffers = "80MB";
+  };
+
+
+  services.postgresql = {
+    ensureDatabases = [
+      "nextcloud"
+    ];
+    ensureUsers = [
+      {
+        name = "nextcloud";
+        ensureDBOwnership = true;
+      }
+    ];
   };
 
   /* create db dump directory */
@@ -78,11 +113,11 @@ in
       Persistent = true;
     };
     # get a db dump before running the restic backup job
-    backupPrepareCommand = "${pkgs.sqlite}/bin/sqlite3 ${database-path} \".backup '/var/lib/nextcloud/db-dumps/db-dump.sqlite3'\"";
+    #backupPrepareCommand = "${pkgs.sqlite}/bin/sqlite3 ${database-path} \".backup '/var/lib/nextcloud/db-dumps/db-dump.sqlite3'\"";
   };
 
   /* nextcloud backup restore service : if no nextcloud database is present (e.g. on new machine), restore the latest restic backup */
-  systemd.services.nextcloud-backup-auto-restore = {
+  /*systemd.services.nextcloud-backup-auto-restore = {
     wantedBy = [ "multi-user.target" ];
     before = [ "nextcloud-setup.service" ];
     requiredBy = [ "nextcloud-setup.service" ];
@@ -92,5 +127,5 @@ in
       Group = "nextcloud";
       ExecStart = "${pkgs.bash}/bin/bash ${backup-restore-logic-script}";
     };
-  };
+  };*/
 }
