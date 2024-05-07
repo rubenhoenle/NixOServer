@@ -8,6 +8,7 @@
 
         ruben.paperless.enable = true;
         ruben.gickup.enable = true;
+        ruben.stashapp.enable = true;
 
         swapDevices = [{
           device = "/var/lib/swapfile";
