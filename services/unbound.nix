@@ -17,6 +17,7 @@
           "\"recipes.home.hoenle.xyz A 192.168.178.5\""
           "\"paperless.home.hoenle.xyz A 192.168.178.5\""
           "\"stash.home.hoenle.xyz A 192.168.178.5\""
+          "\"cloud.home.hoenle.xyz A 192.168.178.5\""
 
           "\"mandalore       A 192.168.178.5\""
 

@@ -1,19 +1,17 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 let
-  database-path = "/var/lib/nextcloud/data/nextcloud.db";
+  config-path = "/var/lib/nextcloud/config/config.php";
   backup-restore-logic-script = pkgs.writeText "restore-nextcloud-backup.sh"
     ''
-      if [ -f "${database-path}" ]; then
-        echo "[CUSTOM] ${database-path} exists. Using existing database. No backup restore required."
+      if [ -f "${config-path}" ]; then
+        echo "[CUSTOM] ${config-path} exists. Using existing nextcloud structure. No backup restore required."
       else
-        echo "[CUSTOM] ${database-path} does not exist. Restoring backup..."
+        echo "[CUSTOM] ${config-path} does not exist. Restoring backup..."
         /run/current-system/sw/bin/restic-nextcloud restore --target / latest
-        mv /var/lib/nextcloud/db-dumps/db-dump.sqlite3 ${database-path}
       fi
     '';
 in
 {
-
   /* nextcloud service user */
   users.users.nextcloud = {
     name = "nextcloud";
@@ -43,6 +41,12 @@ in
 
       adminuser = "ruben";
       adminpassFile = config.age.secrets.initialNextcloudPassword.path;
+
+    };
+    extraOptions = {
+      "memories.exiftool" = "${lib.getExe pkgs.exiftool}";
+      "memories.vod.ffmpeg" = "${pkgs.ffmpeg-headless}/bin/ffmpeg";
+      "memories.vod.ffprobe" = "${pkgs.ffmpeg-headless}/bin/ffprobe";
     };
 
     autoUpdateApps.enable = true;
@@ -52,43 +56,10 @@ in
     extraAppsEnable = true;
   };
 
+  /* delay nextcloud startup until the postgres database is available */
   systemd.services."nextcloud-setup" = {
     requires = [ "postgresql.service" ];
     after = [ "postgresql.service" ];
-  };
-
-  services.postgresql.enable = true;
-  services.postgresql.package = pkgs.postgresql_15;
-  services.postgresql.settings = {
-    max_connections = "300";
-    shared_buffers = "80MB";
-  };
-
-
-  services.postgresql = {
-    ensureDatabases = [
-      "nextcloud"
-    ];
-    ensureUsers = [
-      {
-        name = "nextcloud";
-        ensureDBOwnership = true;
-      }
-    ];
-  };
-
-  /* create db dump directory */
-  systemd.tmpfiles.settings."nextcloud-db-dumps" = {
-    "/var/lib/nextcloud".d = {
-      mode = "0770";
-      user = "nextcloud";
-      group = "nextcloud";
-    };
-    "/var/lib/nextcloud/db-dumps".d = {
-      mode = "0770";
-      user = "nextcloud";
-      group = "nextcloud";
-    };
   };
 
   /* nextcloud backup service */
@@ -112,20 +83,30 @@ in
       OnCalendar = "daily";
       Persistent = true;
     };
-    # get a db dump before running the restic backup job
-    #backupPrepareCommand = "${pkgs.sqlite}/bin/sqlite3 ${database-path} \".backup '/var/lib/nextcloud/db-dumps/db-dump.sqlite3'\"";
   };
 
-  /* nextcloud backup restore service : if no nextcloud database is present (e.g. on new machine), restore the latest restic backup */
-  /*systemd.services.nextcloud-backup-auto-restore = {
+  /* get a postgres db dump incl. restic update before running the nextcloud restic backup job */
+  systemd.services."restic-backups-nextcloud" = {
+    requires = [ "restic-backups-postgres.service" ];
+    after = [ "restic-backups-postgres.service" ];
+  };
+
+  /* nextcloud backup restore service : if no nextcloud config.php is present (e.g. on new machine), restore the latest restic backup */
+  systemd.services.nextcloud-backup-auto-restore = {
     wantedBy = [ "multi-user.target" ];
+
     before = [ "nextcloud-setup.service" ];
     requiredBy = [ "nextcloud-setup.service" ];
+
+    # wait for postgresql database (incl. backup restore) to be available
+    requires = [ "postgresql.service" "nextcloud-backup-auto-restore.service" ];
+    after = [ "postgresql.service" "nextcloud-backup-auto-restore.service" ];
+
     serviceConfig = {
       Type = "oneshot";
       User = "nextcloud";
       Group = "nextcloud";
       ExecStart = "${pkgs.bash}/bin/bash ${backup-restore-logic-script}";
     };
-  };*/
+  };
 }

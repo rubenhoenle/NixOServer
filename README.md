@@ -62,7 +62,15 @@ update-switch
 # testing the backup
 systemctl start restic-backups-nextcloud.service
 systemctl stop phpfpm-nextcloud.service
+systemctl stop postgresql.service
+sudo rm -rf /var/lib/postgresql
 sudo rm -rf /var/lib/nextcloud
 update-switch
+
+# TROUBLESHOOTING
+# in case memories app is not finding any pictures, run this bash command
+/run/current-system/sw/bin/nextcloud-occ memories:index
 ```
+
+
 

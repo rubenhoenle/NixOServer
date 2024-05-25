@@ -11,5 +11,6 @@
     ./matrix-bridge.nix
     ./stashapp.nix
     ./nextcloud.nix
+    ./postgres.nix
   ];
 }
