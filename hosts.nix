@@ -6,9 +6,12 @@
       {
         ruben.network.hostname = "mandalore";
 
-        ruben.paperless.enable = true;
         ruben.gickup.enable = true;
+        ruben.matrixbridge.enable = true;
+        ruben.nextcloud.enable = true;
+        ruben.paperless.enable = true;
         ruben.stashapp.enable = true;
+        ruben.tandoor.enable = true;
 
         swapDevices = [{
           device = "/var/lib/swapfile";

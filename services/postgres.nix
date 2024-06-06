@@ -1,5 +1,8 @@
 { config, pkgs, lib, ... }:
+with lib;
 let
+  cfg = config.ruben.nextcloud;
+
   postgresqlBackupDumpLocation = "/var/backup/postgresql";
   backup-restore-logic-script = pkgs.writeText "restore-postgres-backup.sh"
     ''
@@ -30,85 +33,88 @@ let
     '';
 in
 {
-  /* postgres service user */
-  users.users.postgres = {
-    name = "postgres";
-    group = "postgres";
-    description = "PostgreSQL server user";
-    isSystemUser = true;
-    extraGroups = [ "backup" ];
-  };
-  users.groups.postgres = { };
+  config = mkIf (cfg.enable)
+    {
+      /* postgres service user */
+      users.users.postgres = {
+        name = "postgres";
+        group = "postgres";
+        description = "PostgreSQL server user";
+        isSystemUser = true;
+        extraGroups = [ "backup" ];
+      };
+      users.groups.postgres = { };
 
-  /* postgresql database service */
-  services.postgresql = {
-    enable = true;
-    package = pkgs.postgresql_15;
-    settings = {
-      max_connections = "300";
-      shared_buffers = "80MB";
+      /* postgresql database service */
+      services.postgresql = {
+        enable = true;
+        package = pkgs.postgresql_15;
+        settings = {
+          max_connections = "300";
+          shared_buffers = "80MB";
+        };
+        ensureDatabases = [
+          "nextcloud"
+        ];
+        ensureUsers = [
+          {
+            name = "nextcloud";
+            ensureDBOwnership = true;
+          }
+        ];
+      };
+
+      /* postgresql backup service */
+      services.postgresqlBackup = {
+        enable = true;
+        databases = [ "nextcloud" ];
+        location = "${postgresqlBackupDumpLocation}";
+        compressionLevel = 9;
+        compression = "gzip";
+      };
+
+      /* postgres restic backup service */
+      services.restic.backups.postgres = {
+        user = "postgres";
+        initialize = true;
+        passwordFile = config.age.secrets.resticPassword.path;
+        repository = "s3:https://s3.eu-central-003.backblazeb2.com/nixos-server-restic-backup/services/postgres";
+        environmentFile = config.age.secrets.backblazeB2ResticS3EnvironmentSecrets.path;
+        paths = [
+          "${postgresqlBackupDumpLocation}"
+        ];
+        pruneOpts = [
+          "--keep-daily 7"
+          "--keep-weekly 4"
+          "--keep-monthly 12"
+          "--keep-yearly 3"
+        ];
+        extraOptions = [ "s3.region=eu-central-003" ];
+        /* no timer needed, will be triggered by the nextcloud restic backup service */
+        timerConfig = null;
+      };
+
+      /* get a postgres db dump before running the restic backup job */
+      systemd.services."restic-backups-postgres" = {
+        requires = [ "postgresqlBackup-nextcloud.service" ];
+        after = [ "postgresqlBackup-nextcloud.service" ];
+      };
+
+      systemd.services.postgres-backup-auto-restore = {
+        wantedBy = [ "multi-user.target" ];
+        before = [ "nextcloud-backup-auto-restore.service" ];
+        requiredBy = [ "nextcloud-backup-auto-restore.service" ];
+
+        # wait for postgresql database to be available
+        requires = [ "postgresql.service" ];
+        after = [ "postgresql.service" ];
+
+        serviceConfig = {
+          Type = "oneshot";
+          User = "postgres";
+          Group = "postgres";
+          ExecStart = "${pkgs.bash}/bin/bash ${backup-restore-logic-script}";
+        };
+      };
     };
-    ensureDatabases = [
-      "nextcloud"
-    ];
-    ensureUsers = [
-      {
-        name = "nextcloud";
-        ensureDBOwnership = true;
-      }
-    ];
-  };
-
-  /* postgresql backup service */
-  services.postgresqlBackup = {
-    enable = true;
-    databases = [ "nextcloud" ];
-    location = "${postgresqlBackupDumpLocation}";
-    compressionLevel = 9;
-    compression = "gzip";
-  };
-
-  /* postgres restic backup service */
-  services.restic.backups.postgres = {
-    user = "postgres";
-    initialize = true;
-    passwordFile = config.age.secrets.resticPassword.path;
-    repository = "s3:https://s3.eu-central-003.backblazeb2.com/nixos-server-restic-backup/services/postgres";
-    environmentFile = config.age.secrets.backblazeB2ResticS3EnvironmentSecrets.path;
-    paths = [
-      "${postgresqlBackupDumpLocation}"
-    ];
-    pruneOpts = [
-      "--keep-daily 7"
-      "--keep-weekly 4"
-      "--keep-monthly 12"
-      "--keep-yearly 3"
-    ];
-    extraOptions = [ "s3.region=eu-central-003" ];
-    /* no timer needed, will be triggered by the nextcloud restic backup service */
-    timerConfig = null;
-  };
-
-  /* get a postgres db dump before running the restic backup job */
-  systemd.services."restic-backups-postgres" = {
-    requires = [ "postgresqlBackup-nextcloud.service" ];
-    after = [ "postgresqlBackup-nextcloud.service" ];
-  };
-
-  systemd.services.postgres-backup-auto-restore = {
-    wantedBy = [ "multi-user.target" ];
-    before = [ "nextcloud-backup-auto-restore.service" ];
-    requiredBy = [ "nextcloud-backup-auto-restore.service" ];
-
-    # wait for postgresql database to be available
-    requires = [ "postgresql.service" ];
-    after = [ "postgresql.service" ];
-
-    serviceConfig = {
-      Type = "oneshot";
-      User = "postgres";
-      Group = "postgres";
-      ExecStart = "${pkgs.bash}/bin/bash ${backup-restore-logic-script}";
-    };
-  };
 }
