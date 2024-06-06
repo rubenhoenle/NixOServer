@@ -3,10 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
-    home-manager = {
-      url = "github:nix-community/home-manager/release-23.11";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     # agenix for encrypting secrets
@@ -22,7 +18,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, agenix, treefmt-nix, nixos-hardware, ... }:
+  outputs = { self, nixpkgs, agenix, treefmt-nix, nixos-hardware, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -50,12 +46,6 @@
                 }
                 ./modules/modules.nix
                 ./services/services.nix
-                home-manager.nixosModules.home-manager
-                {
-                  home-manager.useGlobalPkgs = true;
-                  #home-manager.useUserPackages = true;
-                  home-manager.users.ruben = import ./home/home.nix;
-                }
               ] ++ host.nixosModules;
             };
           })

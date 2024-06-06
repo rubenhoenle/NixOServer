@@ -5,7 +5,12 @@
     description = "Ruben";
     extraGroups = [ "networkmanager" "wheel" "backup" ];
     packages = with pkgs; [
-      #vim
+      curl
+      restic
+      screenfetch
+      htop
+      podman-compose
+      dnsutils
     ];
     uid = 1000;
   };
