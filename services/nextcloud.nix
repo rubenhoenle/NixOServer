@@ -42,6 +42,7 @@ in
       adminuser = "ruben";
       adminpassFile = config.age.secrets.initialNextcloudPassword.path;
 
+    overwriteProtocol = "https";
     };
     extraOptions = {
       "memories.exiftool" = "${lib.getExe pkgs.exiftool}";
