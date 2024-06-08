@@ -1,5 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, config, lib, ... }:
+with lib;
 let
+  cfg = config.ruben.homer;
+
   icons = {
     tandoor = builtins.fetchurl {
       url = "https://raw.githubusercontent.com/NX211/homer-icons/master/png/tandoorrecipes.png";
@@ -84,21 +87,28 @@ let
   });
 in
 {
-  virtualisation.oci-containers.containers = {
-    homer = {
-      image = "docker.io/b4bz/homer:latest";
-      autoStart = true;
-      volumes = [
-        "${configFile}:/www/assets/config.yml"
-        "${icons.tandoor}:/www/assets/icons/tandoor.png"
-        "${icons.paperless}:/www/assets/icons/paperless.png"
-        "${icons.hedgedoc}:/www/assets/icons/hedgedoc.svg"
-        "${icons.nextcloud}:/www/assets/icons/nextcloud.png"
-        "${icons.gatus}:/www/assets/icons/gatus.png"
-      ];
-      ports = [
-        "127.0.0.1:7451:8080"
-      ];
-    };
+  options.ruben.homer = {
+    enable = mkEnableOption "homer service dashboard";
   };
+
+  config = mkIf (cfg.enable)
+    {
+      virtualisation.oci-containers.containers = {
+        homer = {
+          image = "docker.io/b4bz/homer:latest";
+          autoStart = true;
+          volumes = [
+            "${configFile}:/www/assets/config.yml"
+            "${icons.tandoor}:/www/assets/icons/tandoor.png"
+            "${icons.paperless}:/www/assets/icons/paperless.png"
+            "${icons.hedgedoc}:/www/assets/icons/hedgedoc.svg"
+            "${icons.nextcloud}:/www/assets/icons/nextcloud.png"
+            "${icons.gatus}:/www/assets/icons/gatus.png"
+          ];
+          ports = [
+            "127.0.0.1:7451:8080"
+          ];
+        };
+      };
+    };
 }
