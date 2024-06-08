@@ -1,17 +1,16 @@
-{ config, pkgs, ... }:
 {
   /* Endless SSH honeypot */
   services.endlessh = {
     enable = true;
     port = 22;
-    openFirewall = false;
+    openFirewall = true;
   };
 
   /* actual OpenSSH daemon */
   services.openssh = {
     enable = true;
     ports = [ 69 ];
-    openFirewall = false;
+    openFirewall = true;
 
     /* allow root login for remote deploy aka. rebuild-switch  */
     settings.AllowUsers = [ "ruben" "root" ];

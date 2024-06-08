@@ -61,7 +61,8 @@ in
 
         autoUpdateApps.enable = true;
         extraApps = {
-          inherit (config.services.nextcloud.package.packages.apps) contacts calendar tasks memories deck;
+          inherit (config.services.nextcloud.package.packages.apps) contacts calendar tasks memories deck cookbook;
+          # additional, already packaged apps: cospend bookmarks groupfolders twofactor_totp twofactor_webauthn onlyoffice 
         };
         extraAppsEnable = true;
       };

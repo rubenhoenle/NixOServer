@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     # agenix for encrypting secrets
@@ -18,10 +19,14 @@
     };
   };
 
-  outputs = { self, nixpkgs, agenix, treefmt-nix, nixos-hardware, ... }:
+  outputs = { self, nixpkgs, nixpkgs-unstable, agenix, treefmt-nix, nixos-hardware, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
+        inherit system;
+        config = { allowUnfree = true; };
+      };
+      pkgs-unstable = import nixpkgs-unstable {
         inherit system;
         config = { allowUnfree = true; };
       };
@@ -39,6 +44,7 @@
             name = host.name;
             value = lib.nixosSystem {
               inherit system pkgs;
+              specialArgs = { inherit pkgs-unstable; };
               modules = [
                 agenix.nixosModules.default
                 {

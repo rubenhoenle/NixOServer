@@ -1,4 +1,4 @@
-{ nixos-hardware }: [
+{ nixos-hardware, ... }: [
   {
     name = "mandalore";
     nixosModules = [

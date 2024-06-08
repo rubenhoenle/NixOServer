@@ -1,5 +1,7 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   imports = [
+    ./gatus.nix
     ./gickup.nix
     ./hedgedoc.nix
     ./homer.nix

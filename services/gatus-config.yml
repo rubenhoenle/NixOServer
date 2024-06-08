@@ -1,0 +1,81 @@
+web:
+  port: 2020
+
+endpoints:
+  - name: hoenle.xyz
+    url: "https://hoenle.xyz"
+    interval: 6h
+    conditions:
+      - "[DOMAIN_EXPIRATION] > 720h"
+ 
+  - name: Blog
+    group: web
+    url: "https://hoenle.xyz"
+    interval: 5m
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 300"
+      - "[CERTIFICATE_EXPIRATION] > 240h"
+  
+  - name: Homer
+    group: selfhosted
+    url: "https://home.hoenle.xyz"
+    interval: 5m
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 300"
+      - "[CERTIFICATE_EXPIRATION] > 240h"
+  
+  - name: Paperless
+    group: selfhosted
+    url: "https://paperless.home.hoenle.xyz"
+    interval: 5m
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 300"
+      - "[CERTIFICATE_EXPIRATION] > 240h"
+  
+  - name: Nextcloud
+    group: selfhosted
+    url: "https://cloud.home.hoenle.xyz"
+    interval: 5m
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 300"
+      - "[CERTIFICATE_EXPIRATION] > 240h"
+  
+  - name: Tandoor recipes
+    group: selfhosted
+    url: "https://recipes.home.hoenle.xyz"
+    interval: 5m
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 300"
+      - "[CERTIFICATE_EXPIRATION] > 240h"
+  
+  - name: Hedgedoc
+    group: selfhosted
+    url: "https://pad.home.hoenle.xyz"
+    interval: 5m
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 300"
+      - "[CERTIFICATE_EXPIRATION] > 240h"
+
+  - name: "Homepage SHW BK"
+    group: bergkapelle
+    url: "https://shw-bergkapelle.de"
+    interval: 15m
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 300"
+      - "[CERTIFICATE_EXPIRATION] > 240h"
+
+  - name: "Nextcloud SHW BK"
+    group: bergkapelle
+    url: "https://cloud.shw-bergkapelle.de"
+    interval: 15m
+    conditions:
+      - "[STATUS] == 200"
+      - "[RESPONSE_TIME] < 300"
+      - "[CERTIFICATE_EXPIRATION] > 240h"

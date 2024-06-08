@@ -1,5 +1,4 @@
-{ config, pkgs, lib, ... }:
-with lib;
+{ pkgs, ... }:
 let
   icons = {
     tandoor = builtins.fetchurl {
@@ -18,6 +17,10 @@ let
       url = "https://raw.githubusercontent.com/NX211/homer-icons/master/png/nextcloud.png";
       sha256 = "1gqm8kldmbd60vigww3xyfy61zpn1w64v1rlk50167pk6184r444";
     };
+    gatus = builtins.fetchurl {
+      url = "https://github.com/TwiN/gatus/blob/714dd4ba099e05c941e706becfc06e2ad2fd9148/.github/assets/logo.png";
+      sha256 = "0y0jl60arbx5gjr0c12sm7khfj3pr8yfd0d85azmylkr5q8214cv";
+    };
   };
 
   # generate a homer config yaml file
@@ -35,6 +38,14 @@ let
         name = "Tools";
         icon = "fas fa-wrench";
         items = [
+          {
+            name = "Gatus";
+            logo = "assets/icons/gatus.png";
+            subtitle = "Health dashboard";
+            keywords = "Health dashboard";
+            url = "https://status.home.hoenle.xyz";
+            target = "_blank";
+          }
           {
             name = "Tandoor";
             logo = "assets/icons/tandoor.png";
@@ -83,6 +94,7 @@ in
         "${icons.paperless}:/www/assets/icons/paperless.png"
         "${icons.hedgedoc}:/www/assets/icons/hedgedoc.svg"
         "${icons.nextcloud}:/www/assets/icons/nextcloud.png"
+        "${icons.gatus}:/www/assets/icons/gatus.png"
       ];
       ports = [
         "127.0.0.1:7451:8080"
