@@ -2,6 +2,48 @@ web:
   port: 2020
 
 endpoints:
+  - name: home.hoenle.xyz
+    group: dns-01
+    url: "192.168.178.5"
+    interval: 1m
+    dns:
+      query-name: "home.hoenle.xyz"
+      query-type: "A"
+    conditions:
+      - "[BODY] == 192.168.178.5"
+      - "[DNS_RCODE] == NOERROR"
+  
+  - name: external
+    group: dns-01
+    url: "192.168.178.5"
+    interval: 1m
+    dns:
+      query-name: "google.com"
+      query-type: "A"
+    conditions:
+      - "[DNS_RCODE] == NOERROR"
+  
+  - name: home.hoenle.xyz
+    group: dns-02
+    url: "192.168.178.4"
+    interval: 1m
+    dns:
+      query-name: "home.hoenle.xyz"
+      query-type: "A"
+    conditions:
+      - "[BODY] == 192.168.178.5"
+      - "[DNS_RCODE] == NOERROR"
+  
+  - name: external
+    group: dns-02
+    url: "192.168.178.4"
+    interval: 1m
+    dns:
+      query-name: "google.com"
+      query-type: "A"
+    conditions:
+      - "[DNS_RCODE] == NOERROR"
+
   - name: hoenle.xyz
     url: "https://hoenle.xyz"
     interval: 6h

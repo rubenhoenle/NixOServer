@@ -21,8 +21,8 @@ let
       sha256 = "1gqm8kldmbd60vigww3xyfy61zpn1w64v1rlk50167pk6184r444";
     };
     gatus = builtins.fetchurl {
-      url = "https://github.com/TwiN/gatus/blob/714dd4ba099e05c941e706becfc06e2ad2fd9148/.github/assets/logo.png";
-      sha256 = "0y0jl60arbx5gjr0c12sm7khfj3pr8yfd0d85azmylkr5q8214cv";
+      url = "https://raw.githubusercontent.com/TwiN/gatus/11aeec45c9763c76719420b8e93bb7f669033839/.github/assets/logo.png";
+      sha256 = "1y1maqm0w8jpi8c7w8amzpy7zvfw0ijxsl1x4nfd0hpaxpy8w74f";
     };
   };
 
