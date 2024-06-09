@@ -51,12 +51,13 @@ in
           adminuser = "ruben";
           adminpassFile = config.age.secrets.initialNextcloudPassword.path;
 
-          overwriteProtocol = "https";
         };
-        extraOptions = {
+        settings = {
           "memories.exiftool" = "${lib.getExe pkgs.exiftool}";
           "memories.vod.ffmpeg" = "${pkgs.ffmpeg-headless}/bin/ffmpeg";
           "memories.vod.ffprobe" = "${pkgs.ffmpeg-headless}/bin/ffprobe";
+
+          overwriteProtocol = "https";
         };
 
         autoUpdateApps.enable = true;

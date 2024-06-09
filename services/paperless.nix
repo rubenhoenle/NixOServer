@@ -57,7 +57,7 @@ in
         dataDir = "${paperlessDir}/data";
         mediaDir = "${paperlessDir}/media";
         consumptionDir = "${paperlessDir}/input";
-        extraConfig = {
+        settings = {
           PAPERLESS_OCR_LANGUAGE = "deu+eng";
           PAPERLESS_ADMIN_USER = "ruben";
           PAPERLESS_TASK_WORKERS = 2;

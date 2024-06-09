@@ -2,7 +2,8 @@
   description = "A very basic flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs-legacy.url = "github:NixOS/nixpkgs/nixos-23.11";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
@@ -19,10 +20,14 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, agenix, treefmt-nix, nixos-hardware, ... }:
+  outputs = { self, nixpkgs, nixpkgs-legacy, nixpkgs-unstable, agenix, treefmt-nix, nixos-hardware, ... }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
+        inherit system;
+        config = { allowUnfree = true; };
+      };
+      pkgs-legacy = import nixpkgs-legacy {
         inherit system;
         config = { allowUnfree = true; };
       };
@@ -44,7 +49,7 @@
             name = host.name;
             value = lib.nixosSystem {
               inherit system pkgs;
-              specialArgs = { inherit pkgs-unstable; };
+              specialArgs = { inherit pkgs-legacy pkgs-unstable; };
               modules = [
                 agenix.nixosModules.default
                 {
