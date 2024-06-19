@@ -10,24 +10,20 @@ let
   configFile = pkgs.writeText "gickup-config.yml" (builtins.toJSON {
     source.github = [
       {
-        token_file = "/gickup/github-token.secret";
+        token_file = "${githubTokenFile}";
         ssh = false;
         wiki = true;
-        starred = true;
+        starred = false;
+        exclude = [ "nixpkgs" ];
       }
     ];
 
     destination.local = [
       {
-        path = "/gickup/backups";
+        path = "/var/lib/gickup/backups";
         structured = true;
       }
     ];
-
-    cron = "0 1 * * *";
-    # optional - when cron is not provided, the program runs once and exits.
-    # Otherwise, it runs according to the cron schedule.
-    # For more information on crontab or testing: https://crontab.guru/
   });
 in
 {
@@ -63,21 +59,24 @@ in
         };
       };
 
-      /* gickup service */
-      virtualisation.oci-containers.containers = {
-        gickup = {
-          image = "docker.io/buddyspencer/gickup:latest";
-          autoStart = true;
-          volumes = [
-            "${configFile}:/gickup/conf.yml"
-            "${githubTokenFile}:/gickup/github-token.secret"
-            "/var/lib/gickup/backups:/gickup/backups"
-          ];
-          environment = {
-            TZ = "Europe/Berlin";
+      systemd = {
+        /* gickup service */
+        services.gickup = {
+          description = "git backups with gickup";
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStart = "${pkgs.gickup}/bin/gickup ${configFile}";
+            User = "gickup";
+            Group = "gickup";
           };
-          cmd = [ "/gickup/conf.yml" ];
-          extraOptions = [ "--userns=keep-id:uid=${toString config.users.users."gickup".uid},gid=${toString config.users.groups."gickup".gid}" ];
+        };
+        /* gickup timer */
+        timers.gickup = {
+          description = "Periodic git backups with gickup";
+          timerConfig = {
+            Unit = "gickup.service";
+            OnCalendar = "daily";
+          };
         };
       };
     };
