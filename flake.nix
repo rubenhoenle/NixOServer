@@ -22,38 +22,42 @@
 
   outputs = { self, nixpkgs, nixpkgs-legacy, nixpkgs-unstable, agenix, treefmt-nix, nixos-hardware, ... }:
     let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs {
+      pkgs = system: import nixpkgs {
         inherit system;
         config = { allowUnfree = true; };
       };
-      pkgs-legacy = import nixpkgs-legacy {
+      pkgs-legacy = system: import nixpkgs-legacy {
         inherit system;
         config = { allowUnfree = true; };
       };
-      pkgs-unstable = import nixpkgs-unstable {
+      pkgs-unstable = system: import nixpkgs-unstable {
         inherit system;
         config = { allowUnfree = true; };
       };
       lib = nixpkgs.lib;
 
-      treefmtEval = treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
+      treefmtEval = treefmt-nix.lib.evalModule (pkgs "x86_64-linux") ./treefmt.nix;
     in
     {
-      formatter.${system} = treefmtEval.config.build.wrapper;
-      checks.${system}.formatter = treefmtEval.config.build.check self;
+      formatter."x86_64-linux" = treefmtEval.config.build.wrapper;
+      checks."x86_64-linux".formatter = treefmtEval.config.build.check self;
 
       nixosConfigurations = builtins.listToAttrs (
         builtins.map
           (host: {
             name = host.name;
+            system = host.system;
             value = lib.nixosSystem {
-              inherit system pkgs;
-              specialArgs = { inherit pkgs-legacy pkgs-unstable; };
+              system = host.system;
+              pkgs = (pkgs host.system);
+              specialArgs = {
+                pkgs-legacy = pkgs-legacy host.system;
+                pkgs-unstable = pkgs-unstable host.system;
+              };
               modules = [
                 agenix.nixosModules.default
                 {
-                  _module.args.agenix = agenix.packages.${system}.default;
+                  _module.args.agenix = agenix.packages.${host.system}.default;
                 }
                 ./modules/modules.nix
                 ./services/services.nix
