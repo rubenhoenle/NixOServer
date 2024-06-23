@@ -23,4 +23,8 @@ in
 
   /* nextcloud */
   "nextcloud/initial-nextcloud-password.age".publicKeys = [ mandalore millenium-falcon ];
+
+  /* syncthing */
+  "syncthing/syncthing-key.age".publicKeys = [ mandalore millenium-falcon ];
+  "syncthing/syncthing-cert.age".publicKeys = [ mandalore millenium-falcon ];
 }

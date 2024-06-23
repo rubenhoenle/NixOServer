@@ -14,5 +14,7 @@
     ./stashapp.nix
     ./nextcloud.nix
     ./postgres.nix
+
+    ./syncthing.nix
   ];
 }

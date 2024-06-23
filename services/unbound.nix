@@ -18,6 +18,7 @@
           "\"stash.home.hoenle.xyz A 192.168.178.5\""
           "\"cloud.home.hoenle.xyz A 192.168.178.5\""
           "\"status.home.hoenle.xyz A 192.168.178.5\""
+          "\"sync.home.hoenle.xyz A 192.168.178.5\""
 
           "\"mandalore       A 192.168.178.5\""
 

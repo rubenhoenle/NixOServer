@@ -30,6 +30,8 @@
     group = "gickup";
     mode = "400";
   };
+
+  /* ovh */
   age.secrets.ovhApplicationKey = {
     file = ../secrets/ovh/application-key.age;
     owner = "acme";
@@ -52,6 +54,20 @@
     file = ../secrets/nextcloud/initial-nextcloud-password.age;
     owner = "nextcloud";
     group = "nextcloud";
+    mode = "400";
+  };
+
+  /* syncthing */
+  age.secrets.syncthingKey = {
+    file = ../secrets/syncthing/syncthing-key.age;
+    owner = "syncthing";
+    group = "syncthing";
+    mode = "400";
+  };
+  age.secrets.syncthingCert = {
+    file = ../secrets/syncthing/syncthing-cert.age;
+    owner = "syncthing";
+    group = "syncthing";
     mode = "400";
   };
 }
