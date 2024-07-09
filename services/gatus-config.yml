@@ -121,3 +121,9 @@ endpoints:
       - "[STATUS] == 200"
       - "[RESPONSE_TIME] < 300"
       - "[CERTIFICATE_EXPIRATION] > 240h"
+
+external-endpoints:
+  - name: Syncthing
+    group: backups
+    token: "potato"
+
