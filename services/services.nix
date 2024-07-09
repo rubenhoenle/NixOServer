@@ -1,4 +1,3 @@
-{ pkgs, ... }:
 {
   imports = [
     ./gatus.nix
@@ -12,8 +11,6 @@
     ./tandoor.nix
     ./matrix-bridge.nix
     ./stashapp.nix
-    ./nextcloud.nix
-    ./postgres.nix
 
     ./syncthing.nix
   ];

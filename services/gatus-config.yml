@@ -78,8 +78,8 @@ endpoints:
       - "[CERTIFICATE_EXPIRATION] > 240h"
   
   - name: Nextcloud
-    group: selfhosted
-    url: "https://cloud.home.hoenle.xyz"
+    group: cloudservices
+    url: "https://cloud.hoenle.xyz"
     interval: 5m
     conditions:
       - "[STATUS] == 200"

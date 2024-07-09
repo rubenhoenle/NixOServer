@@ -82,7 +82,7 @@ let
             logo = "assets/icons/nextcloud.png";
             subtitle = "Private cloud suite";
             keywords = "Private cloud suite";
-            url = "https://cloud.home.hoenle.xyz";
+            url = "https://cloud.hoenle.xyz";
             target = "_blank";
           }
           {

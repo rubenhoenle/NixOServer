@@ -14,7 +14,6 @@
         ruben.homer.enable = true;
         ruben.matrixbridge.enable = true;
         ruben.nginx.enable = true;
-        ruben.nextcloud.enable = true;
         ruben.paperless.enable = true;
         ruben.stashapp.enable = true;
         ruben.tandoor.enable = true;
