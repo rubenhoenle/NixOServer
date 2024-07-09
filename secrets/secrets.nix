@@ -21,9 +21,6 @@ in
   "ovh/application-secret.age".publicKeys = [ mandalore millenium-falcon ];
   "ovh/consumer-key.age".publicKeys = [ mandalore millenium-falcon ];
 
-  /* nextcloud */
-  "nextcloud/initial-nextcloud-password.age".publicKeys = [ mandalore millenium-falcon ];
-
   /* syncthing */
   "syncthing/syncthing-key.age".publicKeys = [ mandalore millenium-falcon ];
   "syncthing/syncthing-cert.age".publicKeys = [ mandalore millenium-falcon ];

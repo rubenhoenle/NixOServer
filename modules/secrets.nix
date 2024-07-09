@@ -50,12 +50,6 @@
     group = "acme";
     mode = "400";
   };
-  age.secrets.initialNextcloudPassword = {
-    file = ../secrets/nextcloud/initial-nextcloud-password.age;
-    owner = "nextcloud";
-    group = "nextcloud";
-    mode = "400";
-  };
 
   /* syncthing */
   age.secrets.syncthingKey = {

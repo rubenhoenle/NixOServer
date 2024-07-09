@@ -17,6 +17,7 @@
         ruben.paperless.enable = true;
         ruben.stashapp.enable = true;
         ruben.tandoor.enable = true;
+        ruben.minecraft.enable = true;
 
         #ruben.syncthing.enable = true;
 
