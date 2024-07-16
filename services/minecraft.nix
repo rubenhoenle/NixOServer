@@ -4,7 +4,7 @@
     enable = lib.mkEnableOption "minecraft server";
   };
 
-  config = lib.mkIf (config.ruben.minecraft-server.enable)
+  config = lib.mkIf (config.ruben.minecraft.enable)
     {
       services.minecraft-server = {
         enable = true;
