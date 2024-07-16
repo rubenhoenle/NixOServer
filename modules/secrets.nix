@@ -18,12 +18,6 @@
     group = "paperless";
     mode = "400";
   };
-  age.secrets.matrixMqttBridgeConfig = {
-    file = ../secrets/matrix-mqtt-bridge-config.age;
-    owner = "ruben";
-    group = "users";
-    mode = "400";
-  };
   age.secrets.gickupGithubToken = {
     file = ../secrets/gickup-github-token.age;
     owner = "gickup";

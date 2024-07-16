@@ -12,7 +12,6 @@
         ruben.gickup.enable = true;
         ruben.hedgedoc.enable = true;
         ruben.homer.enable = true;
-        ruben.matrixbridge.enable = true;
         ruben.nginx.enable = true;
         ruben.paperless.enable = true;
         ruben.stashapp.enable = true;

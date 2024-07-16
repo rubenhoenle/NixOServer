@@ -10,9 +10,6 @@ in
   /* paperless */
   "paperless-password.age".publicKeys = [ mandalore millenium-falcon ];
 
-  /* matrix-bridge */
-  "matrix-mqtt-bridge-config.age".publicKeys = [ mandalore millenium-falcon ];
-
   /* gickup */
   "gickup-github-token.age".publicKeys = [ mandalore millenium-falcon ];
 

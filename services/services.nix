@@ -9,7 +9,6 @@
     ./nginx.nix
     ./paperless.nix
     ./tandoor.nix
-    ./matrix-bridge.nix
     ./minecraft.nix
     ./stashapp.nix
 

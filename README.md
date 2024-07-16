@@ -15,13 +15,11 @@
 ## Podman containers
 To view the logs of the podman containers specified in the nix config, use the following command: 
 ``` bash
-journalctl -u podman-<SERVICE_NAME>
+# show containers
+sudo podman ps -a
 
-# e.g. for tandoor app:
-journalctl -u podman-tandoor-app
-
-# e.g. for matrix-mqtt bridge:
-journalctl -u podman-matrix-mqtt-bridge
+# show logs for container
+sudo podman logs -f <CONTAINER_ID>
 ```
 
 ## Services
