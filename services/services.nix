@@ -10,6 +10,7 @@
     ./paperless.nix
     ./tandoor.nix
     ./minecraft.nix
+    ./nextcloud-backup.nix
     ./stashapp.nix
 
     ./syncthing.nix
