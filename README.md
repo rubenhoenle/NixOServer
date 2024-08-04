@@ -26,16 +26,6 @@ sudo podman logs -f <CONTAINER_ID>
 
 `sudo -u tandoor_recipes bash`
 
-### Hedgedoc service
-
-``` bash
-# testing the backup
-systemctl start restic-backups-hedgedoc.service
-systemctl stop hedgedoc.service
-sudo rm -rf /var/lib/hedgedoc
-update-switch
-```
-
 ### Tandoor recipes service
 
 ``` bash

@@ -12,10 +12,6 @@ let
       url = "https://raw.githubusercontent.com/NX211/homer-icons/master/png/paperless-ng.png";
       sha256 = "19dnqpmypf1fb4a20xgr3x7wd6bcir4rclrpcjgls5m0dsm5d1gx";
     };
-    hedgedoc = builtins.fetchurl {
-      url = "https://raw.githubusercontent.com/NX211/homer-icons/c23d6413b03629d45f80fe8d493224bae38baf23/svg/hedgedoc.svg";
-      sha256 = "0c1kn3f695szxn1abni0kbz3pdkgask3rfwg2y0rj2ghb195awfh";
-    };
     nextcloud = builtins.fetchurl {
       url = "https://raw.githubusercontent.com/NX211/homer-icons/master/png/nextcloud.png";
       sha256 = "1gqm8kldmbd60vigww3xyfy61zpn1w64v1rlk50167pk6184r444";
@@ -66,14 +62,6 @@ let
             target = "_blank";
           }
           {
-            name = "Hedgedoc";
-            logo = "assets/icons/hedgedoc.svg";
-            subtitle = "Markdown pad";
-            keywords = "Markdown pad";
-            url = "https://pad.home.hoenle.xyz";
-            target = "_blank";
-          }
-          {
             name = "Nextcloud";
             logo = "assets/icons/nextcloud.png";
             subtitle = "Private cloud suite";
@@ -101,7 +89,6 @@ in
             "${configFile}:/www/assets/config.yml"
             "${icons.tandoor}:/www/assets/icons/tandoor.png"
             "${icons.paperless}:/www/assets/icons/paperless.png"
-            "${icons.hedgedoc}:/www/assets/icons/hedgedoc.svg"
             "${icons.nextcloud}:/www/assets/icons/nextcloud.png"
             "${icons.gatus}:/www/assets/icons/gatus.png"
           ];

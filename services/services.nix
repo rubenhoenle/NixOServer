@@ -2,7 +2,6 @@
   imports = [
     ./gatus.nix
     ./gickup.nix
-    ./hedgedoc.nix
     ./homer.nix
     ./ssh.nix
     ./unbound.nix

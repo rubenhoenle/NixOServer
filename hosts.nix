@@ -10,7 +10,6 @@
 
         ruben.gatus.enable = true;
         ruben.gickup.enable = true;
-        ruben.hedgedoc.enable = true;
         ruben.homer.enable = true;
         ruben.nginx.enable = true;
         ruben.paperless.enable = true;

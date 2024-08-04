@@ -35,7 +35,6 @@ in
         "192.168.178.2" = [ "synology" "synology.fritz.box" ];
         "192.168.178.5" = [
           "mandalore"
-          "pad.home.hoenle.xyz"
           "recipes.home.hoenle.xyz"
           "paperless.home.hoenle.xyz"
         ];
