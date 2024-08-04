@@ -86,15 +86,6 @@ endpoints:
       - "[RESPONSE_TIME] < 300"
       - "[CERTIFICATE_EXPIRATION] > 240h"
   
-  - name: Tandoor recipes
-    group: selfhosted
-    url: "https://recipes.home.hoenle.xyz"
-    interval: 5m
-    conditions:
-      - "[STATUS] == 200"
-      - "[RESPONSE_TIME] < 300"
-      - "[CERTIFICATE_EXPIRATION] > 240h"
-  
   - name: "Homepage SHW BK"
     group: bergkapelle
     url: "https://shw-bergkapelle.de"

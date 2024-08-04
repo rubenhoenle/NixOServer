@@ -4,10 +4,6 @@ let
   cfg = config.ruben.homer;
 
   icons = {
-    tandoor = builtins.fetchurl {
-      url = "https://raw.githubusercontent.com/NX211/homer-icons/master/png/tandoorrecipes.png";
-      sha256 = "0f7lr0pppxvbh72c9y034acrv8d62wsbif1yzwadalngisqmp4n4";
-    };
     paperless = builtins.fetchurl {
       url = "https://raw.githubusercontent.com/NX211/homer-icons/master/png/paperless-ng.png";
       sha256 = "19dnqpmypf1fb4a20xgr3x7wd6bcir4rclrpcjgls5m0dsm5d1gx";
@@ -46,14 +42,6 @@ let
             target = "_blank";
           }
           {
-            name = "Tandoor";
-            logo = "assets/icons/tandoor.png";
-            subtitle = "Recipe management";
-            keywords = "Recipe management";
-            url = "https://recipes.home.hoenle.xyz";
-            target = "_blank";
-          }
-          {
             name = "Paperless";
             logo = "assets/icons/paperless.png";
             subtitle = "Document management";
@@ -87,7 +75,6 @@ in
           autoStart = true;
           volumes = [
             "${configFile}:/www/assets/config.yml"
-            "${icons.tandoor}:/www/assets/icons/tandoor.png"
             "${icons.paperless}:/www/assets/icons/paperless.png"
             "${icons.nextcloud}:/www/assets/icons/nextcloud.png"
             "${icons.gatus}:/www/assets/icons/gatus.png"

@@ -24,18 +24,6 @@ sudo podman logs -f <CONTAINER_ID>
 
 ## Services
 
-`sudo -u tandoor_recipes bash`
-
-### Tandoor recipes service
-
-``` bash
-# testing the backup
-systemctl start restic-backups-tandoor.service
-systemctl stop tandoor-recipes.service
-sudo rm -rf /var/lib/tandoor-recipes
-update-switch
-```
-
 ### Paperless service
 
 ``` bash

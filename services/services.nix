@@ -7,7 +7,6 @@
     ./unbound.nix
     ./nginx.nix
     ./paperless.nix
-    ./tandoor.nix
     ./minecraft.nix
     ./nextcloud-backup.nix
   ];
