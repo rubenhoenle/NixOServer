@@ -53,18 +53,4 @@
     mode = "400";
     path = "/home/bk_nc_backup/.netrc";
   };
-
-  /* syncthing */
-  age.secrets.syncthingKey = {
-    file = ../secrets/syncthing/syncthing-key.age;
-    owner = "syncthing";
-    group = "syncthing";
-    mode = "400";
-  };
-  age.secrets.syncthingCert = {
-    file = ../secrets/syncthing/syncthing-cert.age;
-    owner = "syncthing";
-    group = "syncthing";
-    mode = "400";
-  };
 }

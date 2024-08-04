@@ -11,7 +11,5 @@
     ./tandoor.nix
     ./minecraft.nix
     ./nextcloud-backup.nix
-
-    ./syncthing.nix
   ];
 }

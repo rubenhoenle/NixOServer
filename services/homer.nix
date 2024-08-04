@@ -24,10 +24,6 @@ let
       url = "https://raw.githubusercontent.com/TwiN/gatus/11aeec45c9763c76719420b8e93bb7f669033839/.github/assets/logo.png";
       sha256 = "1y1maqm0w8jpi8c7w8amzpy7zvfw0ijxsl1x4nfd0hpaxpy8w74f";
     };
-    syncthing = builtins.fetchurl {
-      url = "https://raw.githubusercontent.com/NX211/homer-icons/c23d6413b03629d45f80fe8d493224bae38baf23/png/syncthing.png";
-      sha256 = "1zw1l9804yhlfml3881d834ihhp09hkwgcn4w8frsp1ngfv7slz4";
-    };
   };
 
   # generate a homer config yaml file
@@ -85,14 +81,6 @@ let
             url = "https://cloud.hoenle.xyz";
             target = "_blank";
           }
-          {
-            name = "Syncthing";
-            logo = "assets/icons/syncthing.png";
-            subtitle = "File synchronisation";
-            keywords = "File synchronisation";
-            url = "https://sync.home.hoenle.xyz";
-            target = "_blank";
-          }
         ];
       }
     ];
@@ -116,7 +104,6 @@ in
             "${icons.hedgedoc}:/www/assets/icons/hedgedoc.svg"
             "${icons.nextcloud}:/www/assets/icons/nextcloud.png"
             "${icons.gatus}:/www/assets/icons/gatus.png"
-            "${icons.syncthing}:/www/assets/icons/syncthing.png"
           ];
           ports = [
             "127.0.0.1:7451:8080"

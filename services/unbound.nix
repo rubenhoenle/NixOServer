@@ -20,7 +20,6 @@
           "\"recipes.home.hoenle.xyz A 192.168.178.5\""
           "\"paperless.home.hoenle.xyz A 192.168.178.5\""
           "\"status.home.hoenle.xyz A 192.168.178.5\""
-          "\"sync.home.hoenle.xyz A 192.168.178.5\""
 
           "\"mandalore       A 192.168.178.5\""
           "\"scarif       A 192.168.178.4\""

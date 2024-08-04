@@ -18,10 +18,6 @@ in
   "ovh/application-secret.age".publicKeys = [ mandalore millenium-falcon ];
   "ovh/consumer-key.age".publicKeys = [ mandalore millenium-falcon ];
 
-  /* syncthing */
-  "syncthing/syncthing-key.age".publicKeys = [ mandalore millenium-falcon ];
-  "syncthing/syncthing-cert.age".publicKeys = [ mandalore millenium-falcon ];
-
   /* bk nextcloud backup */
   "bk-nextcloud-backup-netrc.age".publicKeys = [ mandalore millenium-falcon ];
 }
