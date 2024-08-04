@@ -19,7 +19,6 @@
           "\"pad.home.hoenle.xyz A 192.168.178.5\""
           "\"recipes.home.hoenle.xyz A 192.168.178.5\""
           "\"paperless.home.hoenle.xyz A 192.168.178.5\""
-          "\"stash.home.hoenle.xyz A 192.168.178.5\""
           "\"status.home.hoenle.xyz A 192.168.178.5\""
           "\"sync.home.hoenle.xyz A 192.168.178.5\""
 

@@ -14,7 +14,6 @@
         ruben.homer.enable = true;
         ruben.nginx.enable = true;
         ruben.paperless.enable = true;
-        ruben.stashapp.enable = true;
         ruben.tandoor.enable = true;
         ruben.minecraft.enable = true;
 
