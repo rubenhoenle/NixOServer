@@ -15,6 +15,8 @@
         ruben.paperless.enable = true;
         ruben.minecraft.enable = true;
 
+        ruben.bk-nc-backup.enable = true;
+
         swapDevices = [{
           device = "/var/lib/swapfile";
           size = 8 * 1024;
@@ -36,6 +38,8 @@
         boot.loader.grub.enable = false;
         # Enables the generation of /boot/extlinux/extlinux.conf
         boot.loader.generic-extlinux-compatible.enable = true;
+
+        system.autoUpgrade.enable = true;
 
         system.stateVersion = "24.05";
       }
