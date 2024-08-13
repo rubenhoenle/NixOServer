@@ -8,7 +8,7 @@
       curl
       restic
       screenfetch
-      htop
+      btop
       podman-compose
       dnsutils
     ];
