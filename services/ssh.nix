@@ -1,3 +1,4 @@
+{ config, lib, ... }:
 {
   /* Endless SSH honeypot */
   services.endlessh = {
@@ -13,7 +14,7 @@
     openFirewall = true;
 
     /* allow root login for remote deploy aka. rebuild-switch  */
-    settings.AllowUsers = [ "ruben" "root" ];
+    settings.AllowUsers = [ "ruben" "root" ] ++ lib.ifEnable config.ruben.phone-backup.enable [ "phone-backup" ];
     settings.PermitRootLogin = "yes";
 
     /* require public key authentication for better security */

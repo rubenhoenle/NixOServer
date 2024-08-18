@@ -1,15 +1,13 @@
 { pkgs-unstable, config, lib, ... }:
-with lib;
 let
-  cfg = config.ruben.gatus;
   configFile = ./gatus-config.yml;
 in
 {
   options.ruben.gatus = {
-    enable = mkEnableOption "gatus health dashboard service";
+    enable = lib.mkEnableOption "gatus health dashboard service";
   };
 
-  config = mkIf (cfg.enable)
+  config = lib.mkIf (config.ruben.gatus.enable)
     {
       /* gatus service user */
       users.users.gatus = {

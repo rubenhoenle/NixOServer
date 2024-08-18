@@ -18,6 +18,7 @@
           enable = true;
           restoreBackup = true;
         };
+        ruben.phone-backup.enable = true;
 
         ruben.bk-nc-backup.enable = true;
 
