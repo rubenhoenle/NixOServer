@@ -14,7 +14,7 @@
     openFirewall = true;
 
     /* allow root login for remote deploy aka. rebuild-switch  */
-    settings.AllowUsers = [ "ruben" "root" ] ++ lib.ifEnable config.ruben.phone-backup.enable [ "phone-backup" ];
+    settings.AllowUsers = [ "ruben" "root" ] ++ lib.ifEnable config.ruben.phone-backup.enable [ "phone-backup" ] ++ lib.ifEnable config.ruben.fileserver.enable [ "fileserver" ];
     settings.PermitRootLogin = "yes";
 
     /* require public key authentication for better security */

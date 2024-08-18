@@ -5,16 +5,20 @@
 `nixos-rebuild switch --target-host root@scarif --flake ".#scarif"`
 
 ## Rebuilding
+
 `sudo nixos-rebuild switch --flake .#<HOSTNAME>`
 
 ## Startup
+
 `ssh root@<IP> -p 2222`
 
-*Don't forget to specify root as username when connecting to the initrd ssh session!*
+_Don't forget to specify root as username when connecting to the initrd ssh session!_
 
 ## Podman containers
-To view the logs of the podman containers specified in the nix config, use the following command: 
-``` bash
+
+To view the logs of the podman containers specified in the nix config, use the following command:
+
+```bash
 # show containers
 sudo podman ps -a
 
@@ -26,7 +30,7 @@ sudo podman logs -f <CONTAINER_ID>
 
 ### Paperless service
 
-``` bash
+```bash
 # testing the backup
 systemctl start restic-backups-paperless.service
 systemctl stop paperless-consumer.service paperless-scheduler.service paperless-task-queue.service paperless-web.service redis-paperless.service
@@ -36,7 +40,7 @@ update-switch
 
 ### Soft-serve service
 
-``` bash
+```bash
 # testing the backup
 systemctl start restic-backups-soft-serve
 systemctl stop soft-serve.service
@@ -44,7 +48,16 @@ sudo rm -rf /var/lib/soft-serve
 update-switch
 ```
 
-## Troubleshooting 
+### Fileserver
 
-* In case of systemd temp files and directories not created properly when testing backups, run `sudo systemd-tmpfiles --create` on the server.
+```bash
+# running the backup job
+systemctl start restic-backups-fileserver.service
 
+# restoring from backup
+sudo -u fileserver /run/current-system/sw/bin/restic-fileserver restore --target / latest
+```
+
+## Troubleshooting
+
+- In case of systemd temp files and directories not created properly when testing backups, run `sudo systemd-tmpfiles --create` on the server.

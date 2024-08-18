@@ -1,5 +1,6 @@
 {
   imports = [
+    ./fileserver.nix
     ./gatus.nix
     ./homer.nix
     ./ssh.nix
