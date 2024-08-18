@@ -10,9 +10,6 @@ in
   /* paperless */
   "paperless-password.age".publicKeys = [ mandalore millenium-falcon ];
 
-  /* gickup */
-  "gickup-github-token.age".publicKeys = [ mandalore millenium-falcon ];
-
   /* acme */
   "ovh/application-key.age".publicKeys = [ mandalore millenium-falcon ];
   "ovh/application-secret.age".publicKeys = [ mandalore millenium-falcon ];

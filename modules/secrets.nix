@@ -18,12 +18,6 @@
     group = "paperless";
     mode = "400";
   };
-  age.secrets.gickupGithubToken = {
-    file = ../secrets/gickup-github-token.age;
-    owner = "gickup";
-    group = "gickup";
-    mode = "400";
-  };
 
   /* ovh */
   age.secrets.ovhApplicationKey = {
