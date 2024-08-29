@@ -1,3 +1,5 @@
+[![run flake check](https://github.com/rubenhoenle/NixOServer/actions/workflows/build.yaml/badge.svg?branch=main&event=push)](https://github.com/rubenhoenle/NixOServer/actions/workflows/build.yaml)
+
 # NixOS Server Configuration
 
 `nixos-rebuild switch --build-host root@mandalore --target-host root@mandalore --flake ".#mandalore"`
