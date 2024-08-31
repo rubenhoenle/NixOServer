@@ -3,12 +3,37 @@ name: update flake lock
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 23 * * *'
+    - cron: '0 2 * * *'
 
 jobs:
-  lockfile:
+  update:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: DeterminateSystems/nix-installer-action@v13
-      - uses: DeterminateSystems/update-flake-lock@v23
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Install nix
+        uses: DeterminateSystems/nix-installer-action@v13
+      
+      - name: Update flake lock
+        uses: DeterminateSystems/update-flake-lock@v23
+        id: update-flake-lock
+        with:
+          git-author-name: 'github-actions[bot]'
+          git-author-email: 'github-actions[bot]@users.noreply.github.com'
+          git-committer-name: 'github-actions[bot]'
+          git-committer-email: 'github-actions[bot]@users.noreply.github.com'
+        env:
+          GIT_COMMIT_MESSAGE: "chore(nixos): flake update"
+
+      - name: Nix flake check
+        if: ${{ steps.update-flake-lock.outputs.pull-request-operation == 'created' }}
+        run: gh workflow run build.yaml --ref update_flake_lock_action
+        env:
+          GH_TOKEN: ${{ github.token }}
+      
+      - name: Automerge
+        if: ${{ steps.update-flake-lock.outputs.pull-request-operation == 'created' }}
+        run: "gh pr merge --auto --merge ${{ steps.update.outputs.pull-request-number }}"
+        env:
+          GH_TOKEN: ${{ github.token }}
