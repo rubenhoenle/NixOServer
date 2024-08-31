@@ -1,4 +1,5 @@
 [![run flake check](https://github.com/rubenhoenle/NixOServer/actions/workflows/build.yaml/badge.svg?branch=main&event=push)](https://github.com/rubenhoenle/NixOServer/actions/workflows/build.yaml)
+[![update flake lock](https://github.com/rubenhoenle/NixOServer/actions/workflows/flake-update.yaml/badge.svg?branch=main)](https://github.com/rubenhoenle/NixOServer/actions/workflows/flake-update.yaml)
 
 # NixOS Server Configuration
 
