@@ -1,5 +1,6 @@
 {
   imports = [
+    ./filebrowser.nix
     ./fileserver.nix
     ./gatus.nix
     ./homer.nix
