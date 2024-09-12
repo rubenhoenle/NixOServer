@@ -1,29 +1,21 @@
 { config, lib, ... }:
-with lib;
-let
-  cfg = config.ruben.network;
-in
 {
   options.ruben.network = {
-    hostname = mkOption {
-      type = types.str;
+    hostname = lib.mkOption {
+      type = lib.types.str;
     };
   };
 
   config = {
     networking = {
-      hostName = cfg.hostname;
+      hostName = config.ruben.network.hostname;
       nameservers = [ "127.0.0.1" "192.168.178.5" "192.168.178.4" ];
       networkmanager.enable = true;
       firewall = {
         allowedTCPPorts = [
-          53
           80
           443 # nginx reverse proxy 
-          8080 # for http testing 
-          2222 # initrd ssh server 
         ];
-        allowedUDPPorts = [ 53 2222 ];
 
         #interfaces."podman+" = {
         #  allowedUDPPorts = [ 53 ];

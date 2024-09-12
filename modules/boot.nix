@@ -1,3 +1,4 @@
+{ config, ... }:
 {
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -30,4 +31,14 @@
   };
 
   boot.kernelParams = [ "ip=dhcp" ];
+
+  /* open firewall ports */
+  networking.firewall =
+    let
+      port = config.boot.initrd.network.ssh.port;
+    in
+    {
+      allowedTCPPorts = [ port ];
+      allowedUDPPorts = [ port ];
+    };
 }

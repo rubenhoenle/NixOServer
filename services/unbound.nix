@@ -1,4 +1,11 @@
+{ lib, config, ... }:
 {
+  /* open firewall ports */
+  networking.firewall = lib.mkIf config.services.unbound.enable {
+    allowedTCPPorts = [ 53 ];
+    allowedUDPPorts = [ 53 ];
+  };
+
   services.unbound = {
     enable = true;
     resolveLocalQueries = false;

@@ -1,8 +1,6 @@
 { pkgs, config, lib, ... }:
-with lib;
 let
-  cfg = config.ruben.homer;
-
+  port = 7451;
   icons = {
     paperless = builtins.fetchurl {
       url = "https://raw.githubusercontent.com/NX211/homer-icons/master/png/paperless-ng.png";
@@ -64,10 +62,10 @@ let
 in
 {
   options.ruben.homer = {
-    enable = mkEnableOption "homer service dashboard";
+    enable = lib.mkEnableOption "homer service dashboard";
   };
 
-  config = mkIf (cfg.enable)
+  config = lib.mkIf (config.ruben.homer.enable)
     {
       virtualisation.oci-containers.containers = {
         homer = {
@@ -79,9 +77,23 @@ in
             "${icons.nextcloud}:/www/assets/icons/nextcloud.png"
             "${icons.gatus}:/www/assets/icons/gatus.png"
           ];
-          ports = [
-            "127.0.0.1:7451:8080"
-          ];
+          ports = [ "127.0.0.1:${toString port}:8080" ];
+        };
+      };
+
+      /* reverse proxy configuration */
+      services.nginx.virtualHosts."${config.ruben.nginx.domain}" = {
+        forceSSL = true;
+        useACMEHost = "${config.ruben.nginx.domain}";
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString port}";
+          proxyWebsockets = true; # needed if you need to use WebSocket
+          extraConfig =
+            # required when the target is also TLS server with multiple hosts
+            "proxy_ssl_server_name on;" +
+            # required when the server wants to use HTTP Authentication
+            "proxy_pass_header Authorization;"
+          ;
         };
       };
     };

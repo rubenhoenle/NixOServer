@@ -66,6 +66,23 @@ in
         };
       };
 
+      /* reverse proxy configuration */
+      services.nginx.virtualHosts."paperless.${config.ruben.nginx.domain}" = {
+        forceSSL = true;
+        useACMEHost = "${config.ruben.nginx.domain}";
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:${toString config.services.paperless.port}";
+          proxyWebsockets = true; # needed if you need to use WebSocket
+          extraConfig =
+            # required when the target is also TLS server with multiple hosts
+            "proxy_ssl_server_name on;" +
+            # required when the server wants to use HTTP Authentication
+            "proxy_pass_header Authorization;" +
+            "client_max_body_size 200M;"
+          ;
+        };
+      };
+
       /* paperless backup service */
       services.restic.backups.paperless = {
         user = "paperless";
