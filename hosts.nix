@@ -8,6 +8,8 @@
       {
         ruben.network.hostname = "mandalore";
 
+        virtualisation.podman.enable = true;
+
         ruben.gatus.enable = true;
         ruben.homer.enable = true;
         ruben.nginx.enable = true;
