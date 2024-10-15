@@ -51,6 +51,16 @@ sudo rm -rf /var/lib/soft-serve
 update-switch
 ```
 
+### Git server
+
+```bash
+# create a repo on the server
+sudo -u git bash -c "git init --bare ~/myproject.git"
+
+# then you can use it via the following url
+git@git.hoenle.xyz:myproject.git
+```
+
 ### Fileserver
 
 ```bash

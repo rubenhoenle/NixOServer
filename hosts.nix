@@ -15,6 +15,7 @@
         ruben.nginx.enable = true;
         ruben.paperless.enable = true;
         ruben.minecraft.enable = true;
+        ruben.gitserver.enable = true;
         ruben.soft-serve = {
           enable = true;
           restoreBackup = true;
