@@ -16,10 +16,6 @@
         ruben.paperless.enable = true;
         ruben.minecraft.enable = true;
         ruben.gitserver.enable = true;
-        #ruben.soft-serve = {
-        #  enable = true;
-        #  restoreBackup = true;
-        #};
         ruben.phone-backup.enable = true;
         ruben.fileserver.enable = true;
 

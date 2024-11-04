@@ -41,16 +41,6 @@ sudo rm -rf /var/lib/paperless
 update-switch
 ```
 
-### Soft-serve service
-
-```bash
-# testing the backup
-systemctl start restic-backups-soft-serve
-systemctl stop soft-serve.service
-sudo rm -rf /var/lib/soft-serve
-update-switch
-```
-
 ### Git server
 
 ```bash
