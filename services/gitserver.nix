@@ -42,6 +42,7 @@
         paths = [
           "/var/lib/git-server"
         ];
+        backupPrepareCommand = "${pkgs.curl}/bin/curl -fsS -m 10 --retry 5 https://hc-ping.com/$(${pkgs.coreutils}/bin/cat ${config.age.secrets.healthchecksIoUuid.path})/backup-gitserver/start";
         pruneOpts = [
           "--keep-hourly 48"
           "--keep-daily 7"
@@ -55,6 +56,26 @@
           Persistent = true;
         };
       };
+
+      systemd.services."restic-backups-gitserver" = {
+        onSuccess = [ "restic-notify-gitserver@success.service" ];
+        onFailure = [ "restic-notify-gitserver@failure.service" ];
+      };
+
+      systemd.services."restic-notify-gitserver@" =
+        let
+          script = pkgs.writeText "restic-notify-gitserver.sh"
+            ''
+              ${pkgs.curl}/bin/curl -fsS -m 10 --retry 5 https://hc-ping.com/$(cat ${config.age.secrets.healthchecksIoUuid.path})/backup-gitserver/''${MONITOR_EXIT_STATUS}
+            '';
+        in
+        {
+          serviceConfig = {
+            Type = "oneshot";
+            User = "git";
+            ExecStart = "${pkgs.bash}/bin/bash ${script}";
+          };
+        };
     };
 }
 

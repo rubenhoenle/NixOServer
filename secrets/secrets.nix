@@ -17,4 +17,7 @@ in
 
   /* bk nextcloud backup */
   "bk-nextcloud-backup-netrc.age".publicKeys = [ mandalore millenium-falcon ];
+
+  /* uuid for healthchecks.io cronjob monitoring */
+  "healthchecks-io-uuid.age".publicKeys = [ mandalore millenium-falcon ];
 }

@@ -12,6 +12,12 @@
     group = "backup";
     mode = "440";
   };
+  age.secrets.healthchecksIoUuid = {
+    file = ../secrets/healthchecks-io-uuid.age;
+    owner = "ruben";
+    group = "backup";
+    mode = "440";
+  };
   age.secrets.paperlessPassword = {
     file = ../secrets/paperless-password.age;
     owner = "paperless";
