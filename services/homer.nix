@@ -6,10 +6,6 @@ let
       url = "https://raw.githubusercontent.com/NX211/homer-icons/master/png/paperless-ng.png";
       sha256 = "19dnqpmypf1fb4a20xgr3x7wd6bcir4rclrpcjgls5m0dsm5d1gx";
     };
-    nextcloud = builtins.fetchurl {
-      url = "https://raw.githubusercontent.com/NX211/homer-icons/master/png/nextcloud.png";
-      sha256 = "1gqm8kldmbd60vigww3xyfy61zpn1w64v1rlk50167pk6184r444";
-    };
     gatus = builtins.fetchurl {
       url = "https://raw.githubusercontent.com/TwiN/gatus/11aeec45c9763c76719420b8e93bb7f669033839/.github/assets/logo.png";
       sha256 = "1y1maqm0w8jpi8c7w8amzpy7zvfw0ijxsl1x4nfd0hpaxpy8w74f";
@@ -47,14 +43,6 @@ let
             url = "https://paperless.home.hoenle.xyz";
             target = "_blank";
           }
-          {
-            name = "Nextcloud";
-            logo = "assets/icons/nextcloud.png";
-            subtitle = "Private cloud suite";
-            keywords = "Private cloud suite";
-            url = "https://cloud.hoenle.xyz";
-            target = "_blank";
-          }
         ];
       }
     ];
@@ -74,7 +62,6 @@ in
           volumes = [
             "${configFile}:/www/assets/config.yml"
             "${icons.paperless}:/www/assets/icons/paperless.png"
-            "${icons.nextcloud}:/www/assets/icons/nextcloud.png"
             "${icons.gatus}:/www/assets/icons/gatus.png"
           ];
           ports = [ "127.0.0.1:${toString port}:8080" ];
