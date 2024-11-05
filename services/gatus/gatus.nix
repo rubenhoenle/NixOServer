@@ -1,6 +1,6 @@
 { pkgs-unstable, config, lib, ... }:
 let
-  configFile = ./gatus-config.yml;
+  configFile = ./config.yml;
 in
 {
   options.ruben.gatus = {

@@ -2,7 +2,7 @@
   imports = [
     ./filebrowser.nix
     ./fileserver.nix
-    ./gatus.nix
+    ./gatus/gatus.nix
     ./gitserver.nix
     ./homer.nix
     ./ssh.nix
