@@ -7,7 +7,6 @@
   };
 
   services.unbound = {
-    enable = true;
     resolveLocalQueries = false;
     settings = {
       server = {
@@ -22,10 +21,7 @@
           "::0/0            allow" # allow all ipv6
         ];
         local-data = [
-          "\"home.hoenle.xyz A 192.168.178.5\""
-          "\"paperless.home.hoenle.xyz A 192.168.178.5\""
-          "\"status.home.hoenle.xyz A 192.168.178.5\""
-          "\"git.home.hoenle.xyz A 192.168.178.5\""
+          "\"git.hoenle.xyz A 192.168.178.5\""
 
           "\"mandalore       A 192.168.178.5\""
           "\"scarif       A 192.168.178.4\""

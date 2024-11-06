@@ -22,6 +22,7 @@
         services = {
           minecraft-server.enable = true;
           nginx.enable = true;
+          unbound.enable = false;
         };
 
         ruben.bk-nc-backup.enable = true;
@@ -45,14 +46,19 @@
 
         ruben.filebrowser.enable = true;
 
-        # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
-        boot.loader.grub.enable = false;
-        # Enables the generation of /boot/extlinux/extlinux.conf
-        boot.loader.generic-extlinux-compatible.enable = true;
+        services.unbound.enable = false;
 
-        system.autoUpgrade.enable = true;
+        boot.loader = {
+          # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
+          grub.enable = false;
+          # Enables the generation of /boot/extlinux/extlinux.conf
+          generic-extlinux-compatible.enable = true;
+        };
 
-        system.stateVersion = "24.05";
+        system = {
+          autoUpgrade.enable = true;
+          stateVersion = "24.05";
+        };
       }
     ];
   }
