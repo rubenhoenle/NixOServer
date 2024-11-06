@@ -10,11 +10,6 @@ in
   /* paperless */
   "paperless-password.age".publicKeys = [ mandalore millenium-falcon ];
 
-  /* acme */
-  "ovh/application-key.age".publicKeys = [ mandalore millenium-falcon ];
-  "ovh/application-secret.age".publicKeys = [ mandalore millenium-falcon ];
-  "ovh/consumer-key.age".publicKeys = [ mandalore millenium-falcon ];
-
   /* bk nextcloud backup */
   "bk-nextcloud-backup-netrc.age".publicKeys = [ mandalore millenium-falcon ];
 

@@ -32,7 +32,7 @@ let
             logo = "assets/icons/gatus.png";
             subtitle = "Health dashboard";
             keywords = "Health dashboard";
-            url = "https://status.home.hoenle.xyz";
+            url = "/gatus";
             target = "_blank";
           }
           {
@@ -40,7 +40,7 @@ let
             logo = "assets/icons/paperless.png";
             subtitle = "Document management";
             keywords = "Document management";
-            url = "https://paperless.home.hoenle.xyz";
+            url = "/paperless";
             target = "_blank";
           }
         ];
@@ -69,18 +69,9 @@ in
       };
 
       /* reverse proxy configuration */
-      services.nginx.virtualHosts."${config.ruben.nginx.domain}" = {
-        forceSSL = true;
-        useACMEHost = "${config.ruben.nginx.domain}";
+      services.nginx.virtualHosts.localhost = {
         locations."/" = {
           proxyPass = "http://127.0.0.1:${toString port}";
-          proxyWebsockets = true; # needed if you need to use WebSocket
-          extraConfig =
-            # required when the target is also TLS server with multiple hosts
-            "proxy_ssl_server_name on;" +
-            # required when the server wants to use HTTP Authentication
-            "proxy_pass_header Authorization;"
-          ;
         };
       };
     };

@@ -64,3 +64,10 @@ sudo -u fileserver /run/current-system/sw/bin/restic-fileserver restore --target
 ## Troubleshooting
 
 - In case of systemd temp files and directories not created properly when testing backups, run `sudo systemd-tmpfiles --create` on the server.
+
+## SSH Tunnelling
+
+```bash
+# port forward localhost:3000 to mandalore:2020
+ssh mandalore -L 3000:localhost:2020 -fN
+```

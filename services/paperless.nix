@@ -63,14 +63,13 @@ in
           PAPERLESS_TASK_WORKERS = 2;
           PAPERLESS_THREADS_PER_WORKER = 2;
           PAPERLESS_WORKER_TIMEOUT = 3600;
+          PAPERLESS_FORCE_SCRIPT_NAME = "/paperless";
         };
       };
 
       /* reverse proxy configuration */
-      services.nginx.virtualHosts."paperless.${config.ruben.nginx.domain}" = {
-        forceSSL = true;
-        useACMEHost = "${config.ruben.nginx.domain}";
-        locations."/" = {
+      services.nginx.virtualHosts.localhost = {
+        locations."/paperless" = {
           proxyPass = "http://127.0.0.1:${toString config.services.paperless.port}";
           proxyWebsockets = true; # needed if you need to use WebSocket
           extraConfig =

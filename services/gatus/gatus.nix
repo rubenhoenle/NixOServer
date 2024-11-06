@@ -37,12 +37,8 @@ in
 
       /* gatus reverse proxy config */
       services.nginx = {
-        virtualHosts = {
-          "status.home.hoenle.xyz" = {
-            forceSSL = true;
-            useACMEHost = "home.hoenle.xyz";
-            locations."/".proxyPass = "http://127.0.0.1:2020";
-          };
+        virtualHosts.localhost = {
+          locations."/gatus".proxyPass = "http://127.0.0.1:2020";
         };
       };
     };

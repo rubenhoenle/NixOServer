@@ -8,16 +8,21 @@
       {
         ruben.network.hostname = "mandalore";
 
-        virtualisation.podman.enable = true;
+        virtualisation.podman.enable = false;
 
-        ruben.gatus.enable = true;
-        ruben.homer.enable = true;
-        ruben.nginx.enable = true;
-        ruben.paperless.enable = true;
-        ruben.minecraft.enable = true;
-        ruben.gitserver.enable = true;
-        ruben.phone-backup.enable = true;
-        ruben.fileserver.enable = true;
+        ruben = {
+          gatus.enable = false;
+          homer.enable = false;
+          paperless.enable = true;
+          gitserver.enable = true;
+          phone-backup.enable = true;
+          fileserver.enable = true;
+        };
+
+        services = {
+          minecraft-server.enable = true;
+          nginx.enable = true;
+        };
 
         ruben.bk-nc-backup.enable = true;
 

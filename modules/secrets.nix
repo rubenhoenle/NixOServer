@@ -25,26 +25,6 @@
     mode = "400";
   };
 
-  /* ovh */
-  age.secrets.ovhApplicationKey = {
-    file = ../secrets/ovh/application-key.age;
-    owner = "acme";
-    group = "acme";
-    mode = "400";
-  };
-  age.secrets.ovhApplicationSecret = {
-    file = ../secrets/ovh/application-secret.age;
-    owner = "acme";
-    group = "acme";
-    mode = "400";
-  };
-  age.secrets.ovhConsumerKey = {
-    file = ../secrets/ovh/consumer-key.age;
-    owner = "acme";
-    group = "acme";
-    mode = "400";
-  };
-
   /* bk nextcloud backup */
   age.secrets.bkNextcloudBackupNetrc = {
     file = ../secrets/bk-nextcloud-backup-netrc.age;
