@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
-    nixpkgs-legacy.url = "github:NixOS/nixpkgs/nixos-23.11";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
@@ -20,13 +19,9 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-legacy, nixpkgs-unstable, agenix, treefmt-nix, nixos-hardware, ... }:
+  outputs = { self, nixpkgs, nixpkgs-unstable, agenix, treefmt-nix, nixos-hardware, ... }:
     let
       pkgs = system: import nixpkgs {
-        inherit system;
-        config = { allowUnfree = true; };
-      };
-      pkgs-legacy = system: import nixpkgs-legacy {
         inherit system;
         config = { allowUnfree = true; };
       };
@@ -51,7 +46,6 @@
               system = host.system;
               pkgs = (pkgs host.system);
               specialArgs = {
-                pkgs-legacy = pkgs-legacy host.system;
                 pkgs-unstable = pkgs-unstable host.system;
               };
               modules = [
