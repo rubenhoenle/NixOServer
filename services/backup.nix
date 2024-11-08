@@ -11,6 +11,27 @@ let
       cfg.paperless.backupPrepareCommandExport
     ]
   ));
+
+  excludeFile = pkgs.writeText "restic-excludes.txt"
+    ''
+      /home/ruben/.bash_history
+      /home/ruben/.bash_profile
+      /home/ruben/.bashrc
+      /home/ruben/.cache
+      /home/ruben/.config
+      /home/ruben/.docker
+      /home/ruben/.gnupg
+      /home/ruben/.local
+      /home/ruben/.nix-defexpr
+      /home/ruben/.nix-profile
+      /home/ruben/.pki
+      /home/ruben/.profile
+      /home/ruben/.vim
+      /home/ruben/.viminfo
+      /home/ruben/.zshenv
+      /home/ruben/.zsh_history
+      /home/ruben/.zshrc
+    '';
 in
 {
   options.ruben.fullbackup.enable = lib.mkEnableOption "full backup";
@@ -38,6 +59,7 @@ in
           "--keep-yearly 3"
         ];
         extraOptions = [ "s3.region=eu-central-003" ];
+        extraBackupArgs = [ "--exclude-caches" "--exclude-file=${excludeFile}" ];
         timerConfig = {
           OnCalendar = "hourly";
           Persistent = true;

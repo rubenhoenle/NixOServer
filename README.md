@@ -27,6 +27,9 @@ systemctl status restic-backups-fullbackup
 # view snapshots
 restic-fullbackup snapshots
 
+# browse snapshots
+restic-fullbackup ls latest /var/lib/
+
 # restore
 /run/current-system/sw/bin/restic-fullbackup restore --target / latest
 ```
