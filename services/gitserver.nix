@@ -1,6 +1,10 @@
 { config, lib, pkgs, ... }: {
   options.ruben.gitserver = {
     enable = lib.mkEnableOption "git server";
+    path = lib.mkOption {
+      type = lib.types.str;
+      default = "/var/lib/git-server";
+    };
   };
 
   config = lib.mkIf (config.ruben.gitserver.enable)
@@ -8,7 +12,7 @@
       users.users.git = {
         isSystemUser = true;
         group = "git";
-        home = "/var/lib/git-server";
+        home = config.ruben.gitserver.path;
         createHome = true;
         shell = "${pkgs.git}/bin/git-shell";
         extraGroups = [ "backup" ];

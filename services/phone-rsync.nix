@@ -5,6 +5,10 @@ in
 {
   options.ruben.phone-backup = {
     enable = lib.mkEnableOption "phone backup rsync endpoint";
+    path = lib.mkOption {
+      type = lib.types.str;
+      default = "/home/phone-backup";
+    };
   };
 
   config = lib.mkIf (config.ruben.phone-backup.enable)
@@ -12,11 +16,11 @@ in
       users.users.phone-backup = {
         isNormalUser = true;
         createHome = true;
-        home = "/home/phone-backup";
+        home = config.ruben.phone-backup.path;
         extraGroups = [ "backup" ];
         /* only allow rsync connections and nothing else */
         openssh.authorizedKeys.keys = [
-          ''command="${pkgs.rrsync}/bin/rrsync /home/phone-backup",restrict ${key}''
+          ''command="${pkgs.rrsync}/bin/rrsync ${config.ruben.phone-backup.path}",restrict ${key}''
         ];
         uid = 1002;
       };
@@ -28,9 +32,7 @@ in
         passwordFile = config.age.secrets.resticPassword.path;
         repository = "s3:https://s3.eu-central-003.backblazeb2.com/nixos-server-restic-backup/services/phone-backup";
         environmentFile = config.age.secrets.backblazeB2ResticS3EnvironmentSecrets.path;
-        paths = [
-          "/home/phone-backup"
-        ];
+        paths = [ config.ruben.phone-backup.path ];
         pruneOpts = [
           "--keep-hourly 48"
           "--keep-daily 7"

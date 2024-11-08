@@ -2,6 +2,10 @@
 {
   options.ruben.fileserver = {
     enable = lib.mkEnableOption "fileserver";
+    path = lib.mkOption {
+      type = lib.types.str;
+      default = "/home/fileserver";
+    };
   };
 
   config = lib.mkIf (config.ruben.fileserver.enable)
@@ -9,7 +13,7 @@
       users.users.fileserver = {
         isNormalUser = true;
         createHome = true;
-        home = "/home/fileserver";
+        home = config.ruben.fileserver.path;
         extraGroups = [ "backup" ];
         openssh.authorizedKeys.keys = [
           "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIGz2voOKRU2i2BECmdXRw+1okyV+Kwm6PSN0ghaD8zuqAAAABHNzaDo= ruben"
@@ -26,7 +30,7 @@
         repository = "s3:https://s3.eu-central-003.backblazeb2.com/nixos-server-restic-backup/services/fileserver";
         environmentFile = config.age.secrets.backblazeB2ResticS3EnvironmentSecrets.path;
         paths = [
-          "/home/fileserver"
+          config.ruben.fileserver.path
         ];
         pruneOpts = [
           "--keep-hourly 48"
