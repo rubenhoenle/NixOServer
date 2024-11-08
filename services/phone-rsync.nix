@@ -24,27 +24,5 @@ in
         ];
         uid = 1002;
       };
-
-      /* backup service */
-      services.restic.backups.phone-backup = {
-        user = "phone-backup";
-        initialize = true;
-        passwordFile = config.age.secrets.resticPassword.path;
-        repository = "s3:https://s3.eu-central-003.backblazeb2.com/nixos-server-restic-backup/services/phone-backup";
-        environmentFile = config.age.secrets.backblazeB2ResticS3EnvironmentSecrets.path;
-        paths = [ config.ruben.phone-backup.path ];
-        pruneOpts = [
-          "--keep-hourly 48"
-          "--keep-daily 7"
-          "--keep-weekly 4"
-          "--keep-monthly 12"
-          "--keep-yearly 3"
-        ];
-        extraOptions = [ "s3.region=eu-central-003" ];
-        timerConfig = {
-          OnCalendar = "hourly";
-          Persistent = true;
-        };
-      };
     };
 }
