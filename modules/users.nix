@@ -6,8 +6,6 @@
     extraGroups = [ "networkmanager" "wheel" "backup" ];
     packages = with pkgs; [
       curl
-      restic
-      screenfetch
       btop
       podman-compose
       dnsutils

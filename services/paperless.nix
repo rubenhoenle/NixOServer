@@ -1,51 +1,47 @@
 { config, lib, pkgs, ... }:
-with lib;
 let
-  cfg = config.ruben.paperless;
-  paperlessDir = "/var/lib/paperless";
   passwordFile = config.age.secrets.paperlessPassword.path;
-  database-path = "/var/lib/paperless/data/db.sqlite3";
-  backup-restore-logic-script = pkgs.writeText "restore-paperless-backup.sh"
-    ''
-      if [ -f "${database-path}" ]; then
-        echo "[CUSTOM] ${database-path} exists. Using existing database. No backup restore required."
-      else
-        echo "[CUSTOM] ${database-path} does not exist. Restoring backup..."
-        /run/current-system/sw/bin/restic-paperless restore --target / latest
-        mv /var/lib/paperless/db-dumps/db-dump.sqlite3 ${database-path}
-      fi
-    '';
+  cfg = config.ruben.paperless;
 in
 {
   options.ruben.paperless = {
-    enable = mkEnableOption "paperless service";
+    enable = lib.mkEnableOption "paperless service";
+    path = lib.mkOption {
+      type = lib.types.str;
+      default = "/var/lib/paperless";
+    };
+    database-path = lib.mkOption {
+      type = lib.types.str;
+      default = "${cfg.path}/data/db.sqlite3";
+    };
+    backup-path = lib.mkOption {
+      type = lib.types.str;
+      default = "/home/paperless";
+    };
+    backupPrepareCommandDatabase = lib.mkOption {
+      type = lib.types.str;
+      default = "${pkgs.sqlite}/bin/sqlite3 ${cfg.database-path} \".backup '${cfg.backup-path}/paperless-db-dump.sqlite3'\"";
+    };
+    backupPrepareCommandExport = lib.mkOption {
+      type = lib.types.str;
+      default = "${pkgs.coreutils}/bin/mkdir ${cfg.backup-path}/export && ${cfg.path}/data/paperless-manage document_exporter ${cfg.backup-path}/export --compare-checksums --delete";
+    };
   };
 
-  config = mkIf (cfg.enable)
+  config = lib.mkIf (cfg.enable)
     {
       /* paperless service user */
       users.users.paperless = {
         name = "paperless";
         group = "paperless";
         description = "Paperless service user";
+        home = lib.mkForce cfg.backup-path;
+        createHome = true;
         isSystemUser = true;
         extraGroups = [ "backup" ];
+        uid = lib.mkForce 987;
       };
-      users.groups.paperless = { };
-
-      /* create db dump directory */
-      systemd.tmpfiles.settings."paperless-db-dumps" = {
-        "/var/lib/paperless".d = {
-          mode = "0770";
-          user = "paperless";
-          group = "paperless";
-        };
-        "/var/lib/paperless/db-dumps".d = {
-          mode = "0770";
-          user = "paperless";
-          group = "paperless";
-        };
-      };
+      users.groups.paperless.gid = lib.mkForce 985;
 
       /* paperless service */
       services.paperless = {
@@ -54,9 +50,11 @@ in
         port = 8085;
         passwordFile = passwordFile;
         user = "paperless";
-        dataDir = "${paperlessDir}/data";
-        mediaDir = "${paperlessDir}/media";
-        consumptionDir = "${paperlessDir}/input";
+        dataDir = "${cfg.path}/data";
+        mediaDir = "${cfg.path}/media";
+        consumptionDir = "${cfg.path}/input";
+        # whether the paperless consumption dir is accessible to all users
+        consumptionDirIsPublic = false;
         settings = {
           PAPERLESS_OCR_LANGUAGE = "deu+eng";
           PAPERLESS_ADMIN_USER = "ruben";
@@ -79,57 +77,6 @@ in
             "proxy_pass_header Authorization;" +
             "client_max_body_size 200M;"
           ;
-        };
-      };
-
-      /* paperless backup service */
-      services.restic.backups.paperless = {
-        user = "paperless";
-        initialize = true;
-        passwordFile = config.age.secrets.resticPassword.path;
-        repository = "s3:https://s3.eu-central-003.backblazeb2.com/nixos-server-restic-backup/services/paperless";
-        environmentFile = config.age.secrets.backblazeB2ResticS3EnvironmentSecrets.path;
-        paths = [
-          "/var/lib/paperless"
-          "/var/lib/paperless/db-dumps"
-        ];
-        pruneOpts = [
-          "--keep-daily 7"
-          "--keep-weekly 4"
-          "--keep-monthly 12"
-          "--keep-yearly 3"
-        ];
-        extraOptions = [ "s3.region=eu-central-003" ];
-        timerConfig = {
-          OnCalendar = "daily";
-          Persistent = true;
-        };
-        # get a db dump before running the restic backup job
-        backupPrepareCommand = "${pkgs.sqlite}/bin/sqlite3 ${database-path} \".backup '/var/lib/paperless/db-dumps/db-dump.sqlite3'\"";
-      };
-
-      /* paperless backup restore service: if no paperless database is present (e.g. on new machine), restore the latest restic backup */
-      systemd.services.paperless-backup-auto-restore = {
-        wantedBy = [ "multi-user.target" ];
-        before = [
-          "paperless-consumer.service"
-          "paperless-scheduler.service"
-          "paperless-task-queue.service"
-          "paperless-web.service"
-          "redis-paperless.service"
-        ];
-        requiredBy = [
-          "paperless-consumer.service"
-          "paperless-scheduler.service"
-          "paperless-task-queue.service"
-          "paperless-web.service"
-          "redis-paperless.service"
-        ];
-        serviceConfig = {
-          Type = "oneshot";
-          User = "paperless";
-          Group = "paperless";
-          ExecStart = "${pkgs.bash}/bin/bash ${backup-restore-logic-script}";
         };
       };
     };

@@ -3,19 +3,33 @@
 
 # NixOS Server Configuration
 
+## Rebuilding
+
 `nixos-rebuild switch --build-host root@mandalore --target-host root@mandalore --flake ".#mandalore"`
 
 `nixos-rebuild switch --target-host root@scarif --flake ".#scarif"`
-
-## Rebuilding
-
-`sudo nixos-rebuild switch --flake .#<HOSTNAME>`
 
 ## Startup
 
 `ssh root@<IP> -p 2222`
 
 _Don't forget to specify root as username when connecting to the initrd ssh session!_
+
+## Backups
+
+```bash
+# start
+systemctl start restic-backups-fullbackup
+
+# view status
+systemctl status restic-backups-fullbackup
+
+# view snapshots
+restic-fullbackup snapshots
+
+# restore
+/run/current-system/sw/bin/restic-fullbackup restore --target / latest
+```
 
 ## Podman containers
 
@@ -34,11 +48,8 @@ sudo podman logs -f <CONTAINER_ID>
 ### Paperless service
 
 ```bash
-# testing the backup
-systemctl start restic-backups-paperless.service
-systemctl stop paperless-consumer.service paperless-scheduler.service paperless-task-queue.service paperless-web.service redis-paperless.service
-sudo rm -rf /var/lib/paperless
-update-switch
+# export
+/var/lib/paperless/data/paperless-manage document_exporter /home/ruben/paperless-export-001
 ```
 
 ### Git server
@@ -49,16 +60,6 @@ sudo -u git bash -c "git init --bare ~/myproject.git"
 
 # then you can use it via the following url
 git@git.hoenle.xyz:myproject.git
-```
-
-### Fileserver
-
-```bash
-# running the backup job
-systemctl start restic-backups-fileserver.service
-
-# restoring from backup
-sudo -u fileserver /run/current-system/sw/bin/restic-fileserver restore --target / latest
 ```
 
 ## Troubleshooting

@@ -13,5 +13,6 @@
     agenix
     git
     vim
+    tldr
   ];
 }
