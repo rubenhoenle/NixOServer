@@ -6,7 +6,7 @@
       ./hardware/thinkcentre-m710q.nix
       ./modules/boot.nix
       {
-        ruben.network.hostname = "mandalore";
+        networking.hostName = "mandalore";
 
         virtualisation.podman.enable = false;
 
@@ -44,7 +44,7 @@
     nixosModules = [
       ./hardware/raspberry-pi-4.nix
       {
-        ruben.network.hostname = "scarif";
+        networking.hostName = "scarif";
 
         ruben.filebrowser.enable = true;
 
