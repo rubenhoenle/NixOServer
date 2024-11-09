@@ -24,7 +24,7 @@ in
     };
     backupPrepareCommandExport = lib.mkOption {
       type = lib.types.str;
-      default = "${pkgs.coreutils}/bin/mkdir ${cfg.backup-path}/export && ${cfg.path}/data/paperless-manage document_exporter ${cfg.backup-path}/export --compare-checksums --delete";
+      default = "${pkgs.coreutils}/bin/mkdir -p ${cfg.backup-path}/export && ${cfg.path}/data/paperless-manage document_exporter ${cfg.backup-path}/export --compare-checksums --delete";
     };
   };
 
