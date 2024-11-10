@@ -11,6 +11,12 @@ let
       cfg.paperless.backupPrepareCommandExport
     ]
   ));
+  backupPrepareScriptHdd = pkgs.writeText "backup-hdd-prepare-script.sh" (pkgs.lib.strings.concatLines (
+    [ ] ++ pkgs.lib.ifEnable cfg.paperless.enable [
+      cfg.paperless.backupPrepareCommandDatabase
+      cfg.paperless.backupPrepareCommandExport
+    ]
+  ));
 
   excludeFile = pkgs.writeText "restic-excludes.txt"
     ''
@@ -32,24 +38,27 @@ let
       /home/ruben/.zsh_history
       /home/ruben/.zshrc
     '';
+  restic-common = {
+    paths = [ "/home/ruben" ]
+      ++ pkgs.lib.ifEnable cfg.gitserver.enable [ cfg.gitserver.path ]
+      ++ pkgs.lib.ifEnable cfg.fileserver.enable [ cfg.fileserver.path ]
+      ++ pkgs.lib.ifEnable cfg.phone-backup.enable [ cfg.phone-backup.path ]
+      ++ pkgs.lib.ifEnable cfg.paperless.enable [ cfg.paperless.path cfg.paperless.backup-path ];
+  };
 in
 {
   options.ruben.fullbackup.enable = lib.mkEnableOption "full backup";
 
   config = lib.mkIf (cfg.fullbackup.enable)
     {
-      /* backup service */
+      /* automated backup service */
       services.restic.backups.fullbackup = {
         user = "root";
         initialize = true;
         passwordFile = config.age.secrets.resticPassword.path;
         repository = "s3:https://s3.eu-central-003.backblazeb2.com/nixos-server-restic-backup/system-backup/${hostname}";
         environmentFile = config.age.secrets.backblazeB2ResticS3EnvironmentSecrets.path;
-        paths = [ "/home/ruben" ]
-          ++ pkgs.lib.ifEnable cfg.gitserver.enable [ cfg.gitserver.path ]
-          ++ pkgs.lib.ifEnable cfg.fileserver.enable [ cfg.fileserver.path ]
-          ++ pkgs.lib.ifEnable cfg.phone-backup.enable [ cfg.phone-backup.path ]
-          ++ pkgs.lib.ifEnable cfg.paperless.enable [ cfg.paperless.path cfg.paperless.backup-path ];
+        paths = restic-common.paths;
         backupPrepareCommand = "${pkgs.bash}/bin/bash ${backupPrepareScript}";
         pruneOpts = [
           "--keep-hourly 48"
@@ -66,11 +75,11 @@ in
         };
       };
 
+      /* monitoring for automated backup */
       systemd.services."restic-backups-fullbackup" = {
         onSuccess = [ "restic-notify-fullbackup@success.service" ];
         onFailure = [ "restic-notify-fullbackup@failure.service" ];
       };
-
       systemd.services."restic-notify-fullbackup@" =
         let
           script = pkgs.writeText "restic-notify-fullbackup.sh"
@@ -85,5 +94,17 @@ in
             ExecStart = "${pkgs.bash}/bin/bash ${script}";
           };
         };
+
+      /* restic backup service to a local drive */
+      services.restic.backups.hdd = {
+        user = "root";
+        initialize = true;
+        passwordFile = config.age.secrets.resticPassword.path;
+        repository = "/mnt/SAMSUNG/restic-nixos-server";
+        paths = restic-common.paths;
+        backupPrepareCommand = "${pkgs.bash}/bin/bash ${backupPrepareScriptHdd}";
+        extraBackupArgs = [ "--exclude-caches" "--exclude-file=${excludeFile}" ];
+        timerConfig = null;
+      };
     };
 }

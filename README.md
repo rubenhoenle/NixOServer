@@ -17,6 +17,8 @@ _Don't forget to specify root as username when connecting to the initrd ssh sess
 
 ## Backups
 
+### Offsite backup
+
 ```bash
 # start
 systemctl start restic-backups-fullbackup
@@ -32,6 +34,30 @@ restic-fullbackup ls latest /var/lib/
 
 # restore
 /run/current-system/sw/bin/restic-fullbackup restore --target / latest
+```
+
+### Local harddrive backup
+
+```bash
+# IMPORTANT: the mount/unmount pkgs are only available for the root user
+
+# mount the HDD backup drive
+hdd-mount
+
+# starting the HDD backup
+systemctl start restic-backups-hdd
+
+# showing the status of the HDD backup
+systemctl status restic-backups-hdd
+
+# unmount the HDD backup drive
+hdd-unmount
+
+# showing the snapshots of the HDD backup
+restic-hdd snapshots
+
+# restoring the backup from the HDD
+restic-hdd restore latest --target /
 ```
 
 ## Podman containers

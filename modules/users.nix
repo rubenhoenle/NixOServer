@@ -1,4 +1,8 @@
 { pkgs, ... }:
+let
+  hddMountScript = import ../pkgs/hdd-mount.nix { inherit pkgs; };
+  hddUnmountScript = import ../pkgs/hdd-unmount.nix { inherit pkgs; };
+in
 {
   users.users.ruben = {
     isNormalUser = true;
@@ -16,4 +20,6 @@
 
   /* group which provides access to restic agenix secrets */
   users.groups.backup = { };
+
+  users.users.root.packages = [ hddMountScript hddUnmountScript ];
 }
