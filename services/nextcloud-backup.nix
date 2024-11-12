@@ -13,7 +13,6 @@
         isSystemUser = true;
         createHome = true;
         home = "/home/bk_nc_backup";
-        #extraGroups = [ "backup" ];
       };
       users.groups.bk_nc_backup = { };
 

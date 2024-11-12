@@ -7,7 +7,7 @@ in
   users.users.ruben = {
     isNormalUser = true;
     description = "Ruben";
-    extraGroups = [ "networkmanager" "wheel" "backup" ];
+    extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       curl
       btop

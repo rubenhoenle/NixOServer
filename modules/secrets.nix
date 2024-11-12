@@ -2,20 +2,20 @@
   age.identityPaths = [ "/home/ruben/.ssh/id_ed25519" ];
   age.secrets.resticPassword = {
     file = ../secrets/restic-password.age;
-    owner = "ruben";
-    group = "backup";
+    owner = "root";
+    group = "root";
     mode = "440";
   };
   age.secrets.backblazeB2ResticS3EnvironmentSecrets = {
     file = ../secrets/backblaze-b2-restic-s3-secrets.age;
-    owner = "ruben";
-    group = "backup";
+    owner = "root";
+    group = "root";
     mode = "440";
   };
   age.secrets.healthchecksIoUuid = {
     file = ../secrets/healthchecks-io-uuid.age;
-    owner = "ruben";
-    group = "backup";
+    owner = "root";
+    group = "root";
     mode = "440";
   };
   age.secrets.paperlessPassword = {

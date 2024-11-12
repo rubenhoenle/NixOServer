@@ -17,7 +17,6 @@ in
         isNormalUser = true;
         createHome = true;
         home = config.ruben.phone-backup.path;
-        extraGroups = [ "backup" ];
         /* only allow rsync connections and nothing else */
         openssh.authorizedKeys.keys = [
           ''command="${pkgs.rrsync}/bin/rrsync ${config.ruben.phone-backup.path}",restrict ${key}''

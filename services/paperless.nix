@@ -38,7 +38,6 @@ in
         home = lib.mkForce cfg.backup-path;
         createHome = true;
         isSystemUser = true;
-        extraGroups = [ "backup" ];
         uid = lib.mkForce 987;
       };
       users.groups.paperless.gid = lib.mkForce 985;
