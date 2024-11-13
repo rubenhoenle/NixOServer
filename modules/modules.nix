@@ -1,4 +1,4 @@
-{ pkgs, agenix, ... }: {
+{
   imports = [
     ./firmware.nix
     ./locales.nix
@@ -6,13 +6,5 @@
     ./nix.nix
     ./secrets.nix
     ./users.nix
-  ];
-
-  environment.systemPackages = with pkgs; [
-    screenfetch
-    agenix
-    git
-    vim
-    tldr
   ];
 }

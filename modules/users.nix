@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, agenix, ... }:
 let
   hddMountScript = import ../pkgs/hdd-mount.nix { inherit pkgs; };
   hddUnmountScript = import ../pkgs/hdd-unmount.nix { inherit pkgs; };
@@ -11,15 +11,19 @@ in
     packages = with pkgs; [
       curl
       btop
-      podman-compose
       dnsutils
-    ];
+    ] ++ pkgs.lib.ifEnable config.virtualisation.podman.enable [ pkgs.podman-compose ];
     uid = 1000;
   };
   users.groups.users.gid = 100;
 
-  /* group which provides access to restic agenix secrets */
-  users.groups.backup = { };
+  environment.systemPackages = with pkgs; [
+    screenfetch
+    agenix
+    git
+    vim
+    tldr
+  ];
 
   users.users.root.packages = [ hddMountScript hddUnmountScript ];
 }

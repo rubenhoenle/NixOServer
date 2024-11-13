@@ -22,8 +22,8 @@
         };
 
         services = {
-          minecraft-server.enable = true;
-          nginx.enable = true;
+          minecraft-server.enable = false;
+          nginx.enable = false;
           unbound.enable = false;
         };
 
