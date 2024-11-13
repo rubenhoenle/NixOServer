@@ -1,7 +1,6 @@
 {
   imports = [
     ./backup.nix
-    ./filebrowser.nix
     ./fileserver.nix
     ./gatus/gatus.nix
     ./gitserver.nix
