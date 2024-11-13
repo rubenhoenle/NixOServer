@@ -4,7 +4,6 @@
     ./fileserver.nix
     ./gatus/gatus.nix
     ./gitserver.nix
-    ./homer.nix
     ./ssh.nix
     ./unbound.nix
     ./nginx.nix

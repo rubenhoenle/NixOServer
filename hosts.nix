@@ -12,7 +12,6 @@
 
         ruben = {
           gatus.enable = false;
-          homer.enable = false;
           paperless.enable = true;
           gitserver.enable = true;
           phone-backup.enable = true;
