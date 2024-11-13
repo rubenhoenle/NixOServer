@@ -8,7 +8,7 @@
       {
         networking.hostName = "mandalore";
 
-        virtualisation.podman.enable = false;
+        #virtualisation.podman.enable = true;
 
         ruben = {
           paperless.enable = true;
@@ -22,7 +22,6 @@
         services = {
           minecraft-server.enable = false;
           nginx.enable = false;
-          unbound.enable = false;
         };
 
         ruben.bk-nc-backup.enable = true;
