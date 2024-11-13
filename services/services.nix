@@ -2,7 +2,6 @@
   imports = [
     ./backup.nix
     ./fileserver.nix
-    ./gatus/gatus.nix
     ./gitserver.nix
     ./ssh.nix
     ./unbound.nix

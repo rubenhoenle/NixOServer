@@ -11,7 +11,6 @@
         virtualisation.podman.enable = false;
 
         ruben = {
-          gatus.enable = false;
           paperless.enable = true;
           gitserver.enable = true;
           phone-backup.enable = true;
