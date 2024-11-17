@@ -6,8 +6,6 @@
 
 `nixos-rebuild switch --build-host root@mandalore --target-host root@mandalore --flake ".#mandalore"`
 
-`nixos-rebuild switch --target-host root@scarif --flake ".#scarif"`
-
 ## Startup
 
 `ssh root@<IP> -p 2222`
