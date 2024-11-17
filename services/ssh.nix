@@ -10,7 +10,7 @@
   /* actual OpenSSH daemon */
   services.openssh = {
     enable = true;
-    ports = [ 69 ];
+    ports = [ 41524 ];
     openFirewall = true;
 
     /* allow root login for remote deploy aka. rebuild-switch  */

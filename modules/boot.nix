@@ -11,7 +11,7 @@
     enable = true;
     ssh = {
       enable = true;
-      port = 2222;
+      port = 45274;
 
       shell = "/bin/cryptsetup-askpass";
 
