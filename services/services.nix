@@ -8,6 +8,5 @@
     ./paperless.nix
     ./phone-rsync.nix
     ./minecraft.nix
-    ./nextcloud-backup.nix
   ];
 }

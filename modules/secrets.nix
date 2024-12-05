@@ -24,13 +24,4 @@
     group = "paperless";
     mode = "400";
   };
-
-  /* bk nextcloud backup */
-  age.secrets.bkNextcloudBackupNetrc = {
-    file = ../secrets/bk-nextcloud-backup-netrc.age;
-    owner = "bk_nc_backup";
-    group = "bk_nc_backup";
-    mode = "400";
-    path = "/home/bk_nc_backup/.netrc";
-  };
 }

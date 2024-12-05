@@ -24,8 +24,6 @@
           nginx.enable = false;
         };
 
-        ruben.bk-nc-backup.enable = false;
-
         swapDevices = [{
           device = "/var/lib/swapfile";
           size = 8 * 1024;
