@@ -17,9 +17,13 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, agenix, treefmt-nix, nixos-hardware, ... }:
+  outputs = { self, nixpkgs, nixpkgs-unstable, agenix, disko, treefmt-nix, nixos-hardware, ... }:
     let
       pkgs = system: import nixpkgs {
         inherit system;
@@ -49,6 +53,7 @@
                 pkgs-unstable = pkgs-unstable host.system;
               };
               modules = [
+                disko.nixosModules.disko
                 agenix.nixosModules.default
                 {
                   _module.args.agenix = agenix.packages.${host.system}.default;

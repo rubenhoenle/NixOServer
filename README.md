@@ -6,6 +6,12 @@
 
 `nixos-rebuild switch --build-host root@mandalore --target-host root@mandalore --flake ".#mandalore"`
 
+`nixos-rebuild switch --build-host root@vps --target-host root@vps --flake ".#vps"`
+
+## Installation
+
+`nix run github:nix-community/nixos-anywhere/1.3.0 -- --flake .#vps root@vps.hoenle.xyz --build-on-remote`
+
 ## Startup
 
 `ssh root@<IP> -p 2222`
