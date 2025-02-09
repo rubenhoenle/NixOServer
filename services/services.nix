@@ -8,5 +8,7 @@
     ./paperless.nix
     ./phone-rsync.nix
     ./minecraft.nix
+
+    ./sangam-quiz.nix
   ];
 }

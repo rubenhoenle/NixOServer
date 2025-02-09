@@ -45,6 +45,8 @@
 
         services.nginx.enable = true;
 
+        ruben.sangam-quiz.enable = true;
+
         boot.loader.grub.enable = true;
 
         swapDevices = [{

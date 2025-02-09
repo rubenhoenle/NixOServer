@@ -21,9 +21,11 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    sangam-quiz.url = "github:rubenhoenle/sangam-quiz";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, agenix, disko, treefmt-nix, nixos-hardware, ... }:
+  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, agenix, disko, treefmt-nix, nixos-hardware, ... }:
     let
       pkgs = system: import nixpkgs {
         inherit system;
@@ -51,6 +53,7 @@
               pkgs = (pkgs host.system);
               specialArgs = {
                 pkgs-unstable = pkgs-unstable host.system;
+                inputs = inputs;
               };
               modules = [
                 disko.nixosModules.disko
