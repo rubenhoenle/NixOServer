@@ -49,6 +49,10 @@
 
         boot.loader.grub.enable = true;
 
+        services = {
+          minecraft-server.enable = true;
+        };
+
         swapDevices = [{
           device = "/var/lib/swapfile";
           size = 4 * 1024;
