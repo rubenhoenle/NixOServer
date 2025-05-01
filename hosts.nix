@@ -43,9 +43,10 @@
       {
         networking.hostName = "vps";
 
-        services.nginx.enable = true;
-
-        ruben.sangam-quiz.enable = true;
+        ruben = {
+          sangam-quiz.enable = true;
+          nginx.enable = true;
+        };
 
         boot.loader.grub.enable = true;
 

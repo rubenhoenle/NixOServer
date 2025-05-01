@@ -17,7 +17,8 @@
     settings.AllowUsers = [ "ruben" "root" ]
       ++ lib.ifEnable config.ruben.phone-backup.enable [ "phone-backup" ]
       ++ lib.ifEnable config.ruben.fileserver.enable [ "fileserver" ]
-      ++ lib.ifEnable config.ruben.gitserver.enable [ "git" ];
+      ++ lib.ifEnable config.ruben.gitserver.enable [ "git" ]
+      ++ lib.ifEnable config.ruben.nginx.enable [ "www-data" ];
     settings.PermitRootLogin = "yes";
 
     /* require public key authentication for better security */
