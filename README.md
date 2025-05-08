@@ -63,18 +63,6 @@ restic-hdd snapshots
 restic-hdd restore latest --target /
 ```
 
-## Podman containers
-
-To view the logs of the podman containers specified in the nix config, use the following command:
-
-```bash
-# show containers
-sudo podman ps -a
-
-# show logs for container
-sudo podman logs -f <CONTAINER_ID>
-```
-
 ## Services
 
 ### Paperless service

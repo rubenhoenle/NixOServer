@@ -9,8 +9,6 @@
       {
         networking.hostName = "mandalore";
 
-        #virtualisation.podman.enable = true;
-
         ruben = {
           paperless.enable = true;
           gitserver.enable = true;

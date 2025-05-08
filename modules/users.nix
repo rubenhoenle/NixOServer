@@ -1,4 +1,4 @@
-{ pkgs, config, agenix, ... }:
+{ pkgs, agenix, ... }:
 let
   hddMountScript = import ../pkgs/hdd-mount.nix { inherit pkgs; };
   hddUnmountScript = import ../pkgs/hdd-unmount.nix { inherit pkgs; };
@@ -12,7 +12,7 @@ in
       curl
       btop
       dnsutils
-    ] ++ pkgs.lib.ifEnable config.virtualisation.podman.enable [ pkgs.podman-compose ];
+    ];
     uid = 1000;
   };
   users.groups.users.gid = 100;
