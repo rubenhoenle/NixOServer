@@ -50,6 +50,10 @@
 
         services = {
           minecraft-server.enable = true;
+          teamspeak3 = {
+            enable = true;
+            openFirewall = true;
+          };
         };
 
         swapDevices = [{
