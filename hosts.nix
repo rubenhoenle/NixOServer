@@ -43,6 +43,7 @@
 
         ruben = {
           sangam-quiz.enable = true;
+          commanderer.enable = true;
           nginx.enable = true;
         };
 
@@ -54,6 +55,20 @@
             enable = true;
             openFirewall = true;
           };
+        };
+
+        # ipv6 config
+        systemd.network.enable = true;
+        systemd.network.networks."30-wan" = {
+          matchConfig.Name = "enp1s0"; # either ens3 or enp1s0, check 'ip addr'
+          networkConfig.DHCP = "ipv4";
+          address = [
+            # replace this subnet with the one assigned to your instance
+            "2a01:4f8:1c1c:1e6e::/64"
+          ];
+          routes = [
+            { Gateway = "fe80::1"; }
+          ];
         };
 
         swapDevices = [{
