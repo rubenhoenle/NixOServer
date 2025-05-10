@@ -23,6 +23,7 @@
     };
 
     sangam-quiz.url = "github:rubenhoenle/sangam-quiz";
+    pixelknecht.url = "github:rubenhoenle/pixelknecht";
   };
 
   outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, agenix, disko, treefmt-nix, nixos-hardware, ... }:
