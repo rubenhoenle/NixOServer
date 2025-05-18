@@ -7,7 +7,8 @@
     declarative = true;
     serverProperties = {
       server-port = 25565;
-      difficulty = 3;
+      # peaceful (0), easy (1), normal (2), hard (3)
+      difficulty = 2;
       gamemode = 0;
       max-players = 5;
       motd = "NixOS Minecraft server!";
