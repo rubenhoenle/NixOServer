@@ -17,11 +17,6 @@
           fullbackup.enable = true;
         };
 
-        services = {
-          minecraft-server.enable = false;
-          nginx.enable = false;
-        };
-
         swapDevices = [{
           device = "/var/lib/swapfile";
           size = 8 * 1024;
