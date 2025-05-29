@@ -36,8 +36,8 @@
         networking.hostName = "vps";
 
         ruben = {
-          sangam-quiz.enable = true;
-          commanderer.enable = true;
+          sangam-quiz.enable = false;
+          commanderer.enable = false;
           nginx.enable = true;
         };
 
@@ -46,7 +46,7 @@
         services = {
           minecraft-server.enable = true;
           teamspeak3 = {
-            enable = true;
+            enable = false;
             openFirewall = true;
           };
         };
