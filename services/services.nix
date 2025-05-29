@@ -2,7 +2,6 @@
   imports = [
     ./backup.nix
     ./commanderer.nix
-    ./fileserver.nix
     ./gitserver.nix
     ./ssh.nix
     ./nginx.nix

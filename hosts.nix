@@ -13,7 +13,6 @@
           paperless.enable = true;
           gitserver.enable = true;
           phone-backup.enable = true;
-          fileserver.enable = true;
 
           fullbackup.enable = true;
         };

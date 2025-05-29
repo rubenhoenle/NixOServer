@@ -41,7 +41,6 @@ let
   restic-common = {
     paths = [ "/home/ruben" ]
       ++ pkgs.lib.ifEnable cfg.gitserver.enable [ cfg.gitserver.path ]
-      ++ pkgs.lib.ifEnable cfg.fileserver.enable [ cfg.fileserver.path ]
       ++ pkgs.lib.ifEnable cfg.phone-backup.enable [ cfg.phone-backup.path ]
       ++ pkgs.lib.ifEnable cfg.paperless.enable [ cfg.paperless.path cfg.paperless.backup-path ];
   };
